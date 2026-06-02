@@ -21,6 +21,7 @@ import { CascadaSlide } from './components/CascadaSlide';
 import { CicloIntroSlide } from './components/CicloIntroSlide';
 import { CdeFlowSlide } from './components/CdeFlowSlide';
 import { ContratosBimSlide } from './components/ContratosBimSlide';
+import { RolesBimSlide } from './components/RolesBimSlide';
 import { RefreshCw, Share2 } from 'lucide-react';
 
 // --- Types ---
@@ -227,9 +228,10 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
 
   const clase2Steps = [
     { idx: 8, title: "El Ciclo ISO", icon: <RefreshCw className="w-4 h-4" /> },
-    { idx: 9, title: "1. La Cascada ISO", icon: <Database className="w-4 h-4" /> },
-    { idx: 10, title: "2. Flujo del CDE", icon: <Share2 className="w-4 h-4" /> },
-    { idx: 11, title: "3. Cláusulas BIM", icon: <FileText className="w-4 h-4" /> },
+    { idx: 9, title: "Roles BIM", icon: <Users2 className="w-4 h-4" /> },
+    { idx: 10, title: "1. La Cascada ISO", icon: <Database className="w-4 h-4" /> },
+    { idx: 11, title: "2. Flujo del CDE", icon: <Share2 className="w-4 h-4" /> },
+    { idx: 12, title: "3. Cláusulas BIM", icon: <FileText className="w-4 h-4" /> },
   ];
 
   return (
@@ -1577,7 +1579,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 12;
+  const totalSlides = 13;
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
   const prevSlide = () => setSlide(s => Math.max(s - 1, 0));
@@ -1630,9 +1632,10 @@ export default function App() {
               {slide === 6 && <MaturitySlide />}
               {slide === 7 && <ExecutionGuideSlide />}
               {slide === 8 && <CicloIntroSlide />}
-              {slide === 9 && <CascadaSlide />}
-              {slide === 10 && <CdeFlowSlide />}
-              {slide === 11 && <ContratosBimSlide />}
+              {slide === 9 && <RolesBimSlide />}
+              {slide === 10 && <CascadaSlide />}
+              {slide === 11 && <CdeFlowSlide />}
+              {slide === 12 && <ContratosBimSlide />}
             </motion.div>
           </AnimatePresence>
         </div>
