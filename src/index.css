@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  /* TEDI Corporate Palette based on User Image */
+  --color-tedi-black: #060913;
+  --color-tedi-dark: #111625;
+  --color-tedi-blue: #1C2333;
+  --color-tedi-purple: #7C3AED;
+  --color-tedi-cyan: #DE1B7D;       /* Mapped to deep pink/magenta */
+  --color-tedi-orange: #FF5511;     /* TEDI high-energy orange-red */
+  --color-tedi-pink: #DE1B7D;       /* TEDI Magenta */
+
+  /* Backward Compatibility Mapping for existing Artis classes */
+  --color-artis-black: #060913;
+  --color-artis-teal-dark: #111625;
+  --color-artis-teal: #DE1B7D;      /* Map to TEDI Magenta! */
+  --color-artis-orange: #FF5511;    /* Map to TEDI Orange-red! */
+  --color-artis-orange-deep: #DE1B7D; /* Map deep orange to Magenta for stunning gradients */
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-artis-black text-slate-100;
+  }
+}
+
+.immersive-grid {
+  background-image: radial-gradient(rgba(255, 85, 17, 0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.glass-panel {
+  @apply bg-[#111625]/90 border border-white/5 backdrop-blur-md;
+}
+
+.artis-glow {
+  box-shadow: 0 0 20px rgba(255, 85, 17, 0.25);
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.rotate-x-90 {
+  transform: rotateX(90deg);
+}
+.rotate-y-90 {
+  transform: rotateY(90deg);
+}
+.translate-z-20 {
+  transform: translateZ(20px);
+}
