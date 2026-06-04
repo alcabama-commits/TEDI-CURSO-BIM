@@ -5,12 +5,12 @@
 
 import { useState, useEffect, useRef, Fragment } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
-  LineChart, Line, AreaChart, Area 
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  LineChart, Line, AreaChart, Area
 } from 'recharts';
-import { 
-  ArrowRight, ArrowLeft, Building2, Database, ShieldAlert, TrendingUp, 
+import {
+  ArrowRight, ArrowLeft, Building2, Database, ShieldAlert, TrendingUp,
   MonitorCheck, Users2, Layers, MessageSquare, ChevronRight, Info,
   CheckCircle2, AlertTriangle, Lightbulb, ClipboardList, Sliders, Award, Clock,
   FileText
@@ -51,10 +51,10 @@ const lifecycleData = [
 const TediLogo = ({ className }: { className?: string }) => (
   <div className={cn("flex flex-col gap-2", className)}>
     <div className="py-2.5 px-1 inline-flex items-center justify-center w-full select-none hover:scale-[1.02] transition-transform duration-300">
-      <img 
-        src="https://i.postimg.cc/xd96FXW3/LOGO.jpg" 
-        alt="TEDI" 
-        className="h-12 w-full object-contain filter invert hue-rotate-180 brightness-110 contrast-125 mix-blend-screen select-none pointer-events-none" 
+      <img
+        src="https://i.postimg.cc/xd96FXW3/LOGO.jpg"
+        alt="TEDI"
+        className="h-12 w-full object-contain filter invert hue-rotate-180 brightness-110 contrast-125 mix-blend-screen select-none pointer-events-none"
       />
     </div>
     <div className="flex items-center gap-2 px-1 mt-1">
@@ -70,7 +70,7 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   return (
-    <div 
+    <div
       className="relative w-full h-full perspective-1000 flex items-center justify-center cursor-grab active:cursor-grabbing"
       onMouseDown={() => setIsMouseDown(true)}
       onMouseUp={() => setIsMouseDown(false)}
@@ -86,74 +86,74 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
       }}
     >
       <div className="absolute inset-0 immersive-grid opacity-10 pointer-events-none"></div>
-      
-      <motion.div 
+
+      <motion.div
         className="w-48 h-72 relative preserve-3d"
-        animate={{ 
-          rotateX: rotation.x, 
-          rotateY: rotation.y 
+        animate={{
+          rotateX: rotation.x,
+          rotateY: rotation.y
         }}
         transition={{ type: "spring", damping: 20, stiffness: 100 }}
       >
         {/* Building Floors Structure */}
         <div className="absolute inset-0 border-2 border-artis-orange/40 bg-artis-orange/5 preserve-3d shadow-[0_0_50px_rgba(255,164,0,0.1)]">
-            {/* Front & Back */}
-            <div className="absolute inset-0 border border-white/10" style={{ transform: 'translateZ(40px)' }}>
-               {[...Array(6)].map((_, i) => <div key={i} className="h-px w-full bg-white/5" style={{ top: `${(i+1)*16.6}%`, position: 'absolute' }} />)}
-            </div>
-            <div className="absolute inset-0 border border-white/10" style={{ transform: 'translateZ(-40px)' }}></div>
-            
-            {/* Sides */}
-            <div className="absolute inset-0 border border-white/10" style={{ transform: 'rotateY(90deg) translateZ(24px)' }}></div>
-            <div className="absolute inset-0 border border-white/10" style={{ transform: 'rotateY(-90deg) translateZ(24px)' }}></div>
-            
-            {/* Top */}
-            <div className="absolute w-full h-20 border border-white/10" style={{ transform: 'rotateX(90deg) translateZ(40px)' }}></div>
+          {/* Front & Back */}
+          <div className="absolute inset-0 border border-white/10" style={{ transform: 'translateZ(40px)' }}>
+            {[...Array(6)].map((_, i) => <div key={i} className="h-px w-full bg-white/5" style={{ top: `${(i + 1) * 16.6}%`, position: 'absolute' }} />)}
+          </div>
+          <div className="absolute inset-0 border border-white/10" style={{ transform: 'translateZ(-40px)' }}></div>
+
+          {/* Sides */}
+          <div className="absolute inset-0 border border-white/10" style={{ transform: 'rotateY(90deg) translateZ(24px)' }}></div>
+          <div className="absolute inset-0 border border-white/10" style={{ transform: 'rotateY(-90deg) translateZ(24px)' }}></div>
+
+          {/* Top */}
+          <div className="absolute w-full h-20 border border-white/10" style={{ transform: 'rotateX(90deg) translateZ(40px)' }}></div>
         </div>
-        
+
         {/* Interference Clashing Elements (Red Planes) */}
         {showInterference && (
           <div className="absolute inset-0 flex items-center justify-center preserve-3d">
             {/* Structural Beam (Horizontal) */}
-            <motion.div 
-               className="absolute w-40 h-12 bg-red-600/40 border-2 border-red-500 flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]"
-               style={{ transform: 'translateZ(10px) rotateY(10deg)' }}
-               animate={{ opacity: [0.4, 0.8, 0.4] }}
-               transition={{ duration: 1.5, repeat: Infinity }}
+            <motion.div
+              className="absolute w-40 h-12 bg-red-600/40 border-2 border-red-500 flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]"
+              style={{ transform: 'translateZ(10px) rotateY(10deg)' }}
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
             >
               <div className="text-[6px] font-black text-white uppercase tracking-tighter">VIGA ST-01</div>
             </motion.div>
 
             {/* MEP Service (Vertical Circle/Pipe) - The Clash Point */}
-            <motion.div 
-               className="absolute w-12 h-64 bg-red-600/60 border-2 border-red-500 shadow-[0_0_40px_rgba(220,38,38,0.8)]"
-               style={{ transform: 'translateX(20px) translateZ(5px)' }}
-               animate={{ scale: [1, 1.05, 1] }}
-               transition={{ duration: 2, repeat: Infinity }}
+            <motion.div
+              className="absolute w-12 h-64 bg-red-600/60 border-2 border-red-500 shadow-[0_0_40px_rgba(220,38,38,0.8)]"
+              style={{ transform: 'translateX(20px) translateZ(5px)' }}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-               <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="rotate-90 text-[6px] font-black text-white uppercase tracking-tighter whitespace-nowrap">TUBO HIDRÁULICO</div>
-               </div>
-               
-               {/* Impact Glow at center of intersection */}
-               <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full blur-2xl opacity-40 animate-pulse"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="rotate-90 text-[6px] font-black text-white uppercase tracking-tighter whitespace-nowrap">TUBO HIDRÁULICO</div>
+              </div>
+
+              {/* Impact Glow at center of intersection */}
+              <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full blur-2xl opacity-40 animate-pulse"></div>
             </motion.div>
           </div>
         )}
-        
+
         {/* Core Highlight */}
         {isHovered && (
-          <motion.div 
+          <motion.div
             className="absolute inset-x-4 top-20 h-10 bg-artis-orange/20 border border-artis-orange shadow-[0_0_20px_rgba(255,164,0,0.5)] z-20"
             style={{ transform: 'translateZ(41px)' }}
           />
         )}
       </motion.div>
-      
+
       {/* Interaction Tooltips */}
       <AnimatePresence>
         {isHovered && showData && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0 }}
@@ -169,7 +169,7 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
         )}
 
         {isHovered && showStatus && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -181,7 +181,7 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
         )}
 
         {isHovered && showCost && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -196,16 +196,16 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
 
       {showGantt && (
         <div className="absolute bottom-4 left-6 right-6 h-12 glass-panel rounded-sm overflow-hidden flex items-center px-4 gap-2 border-white/5">
-           <div className="h-2 w-24 bg-artis-orange rounded-full shadow-[0_0_10px_rgba(255,164,0,0.6)]"></div>
-           <div className="h-2 flex-1 bg-white/5 rounded-full relative overflow-hidden">
-             <motion.div 
-               className="absolute top-0 left-0 h-full bg-artis-orange/40" 
-               initial={{ width: "0%" }}
-               animate={{ width: "65%" }}
-               transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-             />
-           </div>
-           <span className="text-[8px] font-mono text-artis-orange">FASE: ESTRUCTURA</span>
+          <div className="h-2 w-24 bg-artis-orange rounded-full shadow-[0_0_10px_rgba(255,164,0,0.6)]"></div>
+          <div className="h-2 flex-1 bg-white/5 rounded-full relative overflow-hidden">
+            <motion.div
+              className="absolute top-0 left-0 h-full bg-artis-orange/40"
+              initial={{ width: "0%" }}
+              animate={{ width: "65%" }}
+              transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+            />
+          </div>
+          <span className="text-[8px] font-mono text-artis-orange">FASE: ESTRUCTURA</span>
         </div>
       )}
 
@@ -260,8 +260,8 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
                   onClick={() => onJump(step.idx)}
                   className={cn(
                     "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
-                    current === step.idx 
-                      ? "bg-artis-orange/10 text-artis-orange border border-artis-orange/30 shadow-[0_0_15px_rgba(255,164,0,0.1)] font-black" 
+                    current === step.idx
+                      ? "bg-artis-orange/10 text-artis-orange border border-artis-orange/30 shadow-[0_0_15px_rgba(255,164,0,0.1)] font-black"
                       : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
                   )}
                 >
@@ -283,8 +283,8 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
                   onClick={() => onJump(step.idx)}
                   className={cn(
                     "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
-                    current === step.idx 
-                      ? "bg-[#de1b7d]/15 text-white border border-[#de1b7d]/35 shadow-[0_0_15px_rgba(222,27,125,0.15)] font-black" 
+                    current === step.idx
+                      ? "bg-[#de1b7d]/15 text-white border border-[#de1b7d]/35 shadow-[0_0_15px_rgba(222,27,125,0.15)] font-black"
                       : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
                   )}
                 >
@@ -297,7 +297,7 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
 
           <div>
             <div className="px-4 mb-3 text-[8px] font-black text-[#38bdf8] uppercase tracking-[0.25em] font-mono">
-              Clase 4: Recursos ISO
+              Clase 3: Recursos ISO
             </div>
             <div className="space-y-1">
               {clase4Steps.map((step) => (
@@ -306,8 +306,8 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
                   onClick={() => onJump(step.idx)}
                   className={cn(
                     "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
-                    current === step.idx 
-                      ? "bg-[#38bdf8]/15 text-white border border-[#38bdf8]/35 shadow-[0_0_15px_rgba(56,189,248,0.15)] font-black" 
+                    current === step.idx
+                      ? "bg-[#38bdf8]/15 text-white border border-[#38bdf8]/35 shadow-[0_0_15px_rgba(56,189,248,0.15)] font-black"
                       : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
                   )}
                 >
@@ -335,7 +335,7 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
 // --- Slides ---
 
 const IntroSlide = () => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     className="h-full flex flex-col justify-center max-w-6xl"
@@ -348,14 +348,14 @@ const IntroSlide = () => (
           <span>Estrategia de Gestión 2026</span>
         </div>
         <h1 className="text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-10 tracking-tighter">
-          BIM:<br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-artis-orange to-artis-orange-deep italic pr-2">DE LA GESTIÓN</span><br/>
+          BIM:<br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-artis-orange to-artis-orange-deep italic pr-2">DE LA GESTIÓN</span><br />
           AL DATO.
         </h1>
         <p className="text-xl text-slate-400 leading-relaxed max-w-xl mb-12">
           Transformando la construcción en una industria de datos precisos para decisiones estratégicas en tiempo real.
         </p>
-        
+
         <div className="glass-panel border border-artis-teal/10 px-8 py-6 rounded-sm w-fit shadow-2xl">
           <div className="text-4xl font-mono font-bold text-white tracking-tight">DATA</div>
           <div className="text-[9px] text-slate-500 uppercase tracking-[0.2em] font-bold mt-2 font-mono">Verdad Estructural</div>
@@ -392,7 +392,7 @@ const IntroSlide = () => (
                 </div>
                 <div>
                   <div className={cn(
-                    "text-[10px] font-black uppercase tracking-tight", 
+                    "text-[10px] font-black uppercase tracking-tight",
                     d.status === "active" ? "text-white" : (d.status === "legacy" ? "text-slate-300" : "text-slate-400")
                   )}>{d.label}</div>
                   <div className="text-[8px] text-slate-500 italic leading-none mt-1">{d.desc}</div>
@@ -402,7 +402,7 @@ const IntroSlide = () => (
             ))}
           </div>
           <div className="mt-8 pt-4 border-t border-white/10">
-             <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Enfoque: <span className="text-artis-orange">BIM 3D, 4D & 5D (Core Business)</span></p>
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Enfoque: <span className="text-artis-orange">BIM 3D, 4D & 5D (Core Business)</span></p>
           </div>
         </div>
       </div>
@@ -411,7 +411,7 @@ const IntroSlide = () => (
 );
 
 const FundamentoSlide = () => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     className="h-full flex flex-col max-w-6xl"
@@ -422,7 +422,7 @@ const FundamentoSlide = () => (
         "BIM no es un software, es una metodología basada en un modelo digital que contiene toda la información técnica."
       </p>
     </div>
-    
+
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">
         <div className="p-8 glass-panel rounded-sm relative border-l-4 border-artis-orange shadow-lg">
@@ -442,7 +442,7 @@ const FundamentoSlide = () => (
       </div>
 
       <div className="glass-panel p-4 rounded-sm relative h-[500px] bg-artis-black border-artis-orange/10">
-         <Building3D showData={true} />
+        <Building3D showData={true} />
       </div>
     </div>
   </motion.div>
@@ -454,7 +454,7 @@ const CoordinacionSlide = () => (
       <h2 className="text-4xl font-black mb-4 uppercase tracking-tighter">Bloque 2: <span className="text-artis-orange">Coordinación (3D)</span></h2>
       <p className="text-slate-400 text-lg italic">Integración de sistemas para mitigar desviaciones en fase de obra.</p>
     </div>
-    
+
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">
         <div className="group p-8 glass-panel rounded-sm hover:border-artis-orange/30 transition-all cursor-default">
@@ -492,13 +492,13 @@ const CoordinacionSlide = () => (
         <Building3D showStatus={false} showInterference={true} />
         {/* Overlay for "Interference" visual feedback */}
         <div className="absolute top-10 right-10 z-50 pointer-events-none">
-           <div className="bg-artis-black p-4 border border-artis-orange-deep/50 rounded shadow-2xl text-[9px] font-mono w-52 artis-glow">
-              <div className="text-artis-orange-deep font-black mb-1 flex items-center gap-2">
-                <AlertTriangle className="w-3 h-3 animate-pulse" />
-                INTERFERENCIA CRÍTICA
-              </div>
-              <div className="text-slate-500 uppercase tracking-tighter">VIGA ST-01 vs RED HIDRÁULICA</div>
-           </div>
+          <div className="bg-artis-black p-4 border border-artis-orange-deep/50 rounded shadow-2xl text-[9px] font-mono w-52 artis-glow">
+            <div className="text-artis-orange-deep font-black mb-1 flex items-center gap-2">
+              <AlertTriangle className="w-3 h-3 animate-pulse" />
+              INTERFERENCIA CRÍTICA
+            </div>
+            <div className="text-slate-500 uppercase tracking-tighter">VIGA ST-01 vs RED HIDRÁULICA</div>
+          </div>
         </div>
       </div>
     </div>
@@ -511,26 +511,26 @@ const AnalisisSlide = () => (
       <h2 className="text-4xl font-black mb-4 uppercase tracking-tighter">Bloque 5: <span className="text-artis-orange">Ejecución (Quinta Dimensión)</span></h2>
       <p className="text-slate-400 text-lg italic">El modelo es ahora una base de datos dinámica para tiempo y costos.</p>
     </div>
-    
+
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-[500px]">
       <div className="space-y-6 flex flex-col justify-center">
-          <div className="glass-panel p-8 rounded-sm relative border-l-4 border-artis-orange shadow-2xl">
-             <div className="flex items-center gap-4 mb-2">
-               <TrendingUp className="w-5 h-5 text-artis-orange" />
-               <h4 className="font-bold text-white uppercase tracking-widest text-sm">Dimensión 5: Presupuesto</h4>
-             </div>
-             <p className="text-sm text-slate-400">
-               Extracción automática de cantidades. El presupuesto se deriva directamente de la geometría 3D, minimizando el error humano.
-             </p>
+        <div className="glass-panel p-8 rounded-sm relative border-l-4 border-artis-orange shadow-2xl">
+          <div className="flex items-center gap-4 mb-2">
+            <TrendingUp className="w-5 h-5 text-artis-orange" />
+            <h4 className="font-bold text-white uppercase tracking-widest text-sm">Dimensión 5: Presupuesto</h4>
           </div>
-          <div className="bg-artis-orange/10 p-8 border border-artis-orange/20 rounded-sm mt-4 artis-glow">
-            <p className="text-[10px] text-artis-orange font-bold uppercase mb-2 tracking-widest">Información al Instante</p>
-            <p className="text-[10px] text-slate-400 italic">
-              Al interactuar con el modelo en pantalla, obtenemos el <strong>costo de elemento</strong> proyectado vinculado a la base de datos central.
-            </p>
-          </div>
+          <p className="text-sm text-slate-400">
+            Extracción automática de cantidades. El presupuesto se deriva directamente de la geometría 3D, minimizando el error humano.
+          </p>
+        </div>
+        <div className="bg-artis-orange/10 p-8 border border-artis-orange/20 rounded-sm mt-4 artis-glow">
+          <p className="text-[10px] text-artis-orange font-bold uppercase mb-2 tracking-widest">Información al Instante</p>
+          <p className="text-[10px] text-slate-400 italic">
+            Al interactuar con el modelo en pantalla, obtenemos el <strong>costo de elemento</strong> proyectado vinculado a la base de datos central.
+          </p>
+        </div>
       </div>
-      
+
       <div className="glass-panel p-0 rounded-sm relative h-full bg-artis-black overflow-hidden border-artis-orange/10 shadow-2xl">
         <Building3D showCost={true} showGantt={true} />
       </div>
@@ -544,18 +544,18 @@ const ConstruccionSlide = () => (
       <h2 className="text-4xl font-black uppercase tracking-tighter">Bloque 4: <span className="text-artis-orange">Control de Obra (Cuarta Dimensión)</span></h2>
       <p className="text-slate-500 text-sm italic font-medium">Seguimiento en tiempo real de la realidad vs el proyecto digital.</p>
     </div>
-    
+
     <div className="flex flex-col gap-4 h-full">
       {/* Visor above the dashboard, reduced height for better proportions */}
       <div className="h-[240px] glass-panel rounded-sm bg-artis-black overflow-hidden relative border-artis-orange/20 artis-glow shadow-2xl">
-         <Building3D showStatus={true} />
+        <Building3D showStatus={true} />
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start pb-4">
         <div className="grid grid-cols-1 gap-3">
           {[
-            { label: "Seguimiento Live", icon: <MonitorCheck className="text-artis-orange w-5 h-5"/>, desc: "Verificación de avance físico versus proyectado mediante nube de puntos." },
-            { label: "Automatización", icon: <CheckCircle2 className="text-artis-orange w-5 h-5"/>, desc: "Dashboards que se alimentan del modelo centralizado para reportes inmediatos." },
+            { label: "Seguimiento Live", icon: <MonitorCheck className="text-artis-orange w-5 h-5" />, desc: "Verificación de avance físico versus proyectado mediante nube de puntos." },
+            { label: "Automatización", icon: <CheckCircle2 className="text-artis-orange w-5 h-5" />, desc: "Dashboards que se alimentan del modelo centralizado para reportes inmediatos." },
           ].map((item, i) => (
             <div key={i} className="flex gap-4 p-4 glass-panel rounded-sm relative border border-white/5 hover:bg-white/5 transition-colors group">
               <div className="shrink-0 mt-1">{item.icon}</div>
@@ -579,16 +579,16 @@ const ConstruccionSlide = () => (
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-             <div className="bg-artis-teal-dark/10 p-4 border border-white/5 rounded-sm">
-                <div className="text-[7px] text-slate-500 uppercase mb-1 font-bold">Avance Físico</div>
-                <div className="text-2xl font-mono font-bold text-white tracking-tighter">68.4%</div>
-                <div className="w-full h-1 bg-slate-800 mt-2"><motion.div initial={{ width: 0 }} animate={{ width: "68.4%" }} transition={{ duration: 1 }} className="h-full bg-artis-orange shadow-[0_0_5px_#FFA400]"></motion.div></div>
-             </div>
-             <div className="bg-artis-teal-dark/10 p-4 border border-white/5 rounded-sm">
-                <div className="text-[7px] text-slate-500 uppercase mb-1 font-bold">Status Obra</div>
-                <div className="text-2xl font-mono font-bold text-emerald-400">EN PLAZO</div>
-                <div className="text-[7px] text-slate-600 mt-1 uppercase italic tracking-tighter">Sin Desviaciones</div>
-             </div>
+            <div className="bg-artis-teal-dark/10 p-4 border border-white/5 rounded-sm">
+              <div className="text-[7px] text-slate-500 uppercase mb-1 font-bold">Avance Físico</div>
+              <div className="text-2xl font-mono font-bold text-white tracking-tighter">68.4%</div>
+              <div className="w-full h-1 bg-slate-800 mt-2"><motion.div initial={{ width: 0 }} animate={{ width: "68.4%" }} transition={{ duration: 1 }} className="h-full bg-artis-orange shadow-[0_0_5px_#FFA400]"></motion.div></div>
+            </div>
+            <div className="bg-artis-teal-dark/10 p-4 border border-white/5 rounded-sm">
+              <div className="text-[7px] text-slate-500 uppercase mb-1 font-bold">Status Obra</div>
+              <div className="text-2xl font-mono font-bold text-emerald-400">EN PLAZO</div>
+              <div className="text-[7px] text-slate-600 mt-1 uppercase italic tracking-tighter">Sin Desviaciones</div>
+            </div>
           </div>
         </div>
       </div>
@@ -602,12 +602,12 @@ const PitchSlide = () => (
       <div className="text-artis-orange font-mono text-sm mb-4 tracking-[0.5em] uppercase">Propuesta de Valor</div>
       <h2 className="text-6xl font-black mb-6 uppercase tracking-tighter">Puntos <span className="text-artis-teal italic underline decoration-artis-orange underline-offset-12">Clave</span></h2>
     </div>
-    
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
       {[
-        { title: "Gestión Riesgos", icon: <ShieldAlert className="text-artis-orange-deep"/>, desc: "Controlamos colisiones en fase digital, no en la excavación." },
-        { title: "Control", icon: <Database className="text-artis-teal"/>, desc: "El presupuesto sale del modelo centralizado. Datos técnicos, no estimaciones." },
-        { title: "Eficiencia", icon: <TrendingUp className="text-artis-orange"/>, desc: "Mediante la innovación se generan herramientas que mejoran el desempeño de los proyectos y la información exacta en tiempo real." },
+        { title: "Gestión Riesgos", icon: <ShieldAlert className="text-artis-orange-deep" />, desc: "Controlamos colisiones en fase digital, no en la excavación." },
+        { title: "Control", icon: <Database className="text-artis-teal" />, desc: "El presupuesto sale del modelo centralizado. Datos técnicos, no estimaciones." },
+        { title: "Eficiencia", icon: <TrendingUp className="text-artis-orange" />, desc: "Mediante la innovación se generan herramientas que mejoran el desempeño de los proyectos y la información exacta en tiempo real." },
       ].map((v, i) => (
         <div key={i} className="p-10 glass-panel rounded-sm relative group hover:border-artis-orange/20 transition-all flex flex-col items-center">
           <div className="mb-6 bg-artis-black border border-white/5 w-16 h-16 flex items-center justify-center rounded-full shadow-inner">
@@ -630,7 +630,7 @@ const PitchSlide = () => (
 const getMaturityStats = (avg: number, budget: string, timeline: string) => {
   let lvl = "";
   let badgeColor = "";
-  
+
   if (avg < 1.75) {
     lvl = "Nivel 1: Inicial / Reactivo";
     badgeColor = "text-rose-400 bg-rose-500/10 border-rose-500/20";
@@ -755,7 +755,7 @@ const MaturitySlide = () => {
   const { lvl, badgeColor, scopeTitle, scopeDesc } = getMaturityStats(avgScore, budget, timeline);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="h-full flex flex-col max-w-7xl mx-auto overflow-y-auto pr-2 pb-10"
@@ -784,10 +784,10 @@ const MaturitySlide = () => {
               <thead>
                 <tr className="border-b border-white/10 text-[9px] uppercase tracking-widest text-slate-400 select-none">
                   <th className="py-3 px-3 w-[22%] font-black uppercase tracking-widest text-artis-orange">Pilar de Evaluación</th>
-                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 1<br/><span className="text-[8px] text-slate-500 font-normal">Inicial / Reactivo</span></th>
-                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 2<br/><span className="text-[8px] text-slate-500 font-normal">Definido / Localizado</span></th>
-                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 3<br/><span className="text-[8px] text-slate-500 font-normal">Estandarizado / Colab.</span></th>
-                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 4<br/><span className="text-[8px] text-slate-500 font-normal">Optimizado / Integrado</span></th>
+                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 1<br /><span className="text-[8px] text-slate-500 font-normal">Inicial / Reactivo</span></th>
+                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 2<br /><span className="text-[8px] text-slate-500 font-normal">Definido / Localizado</span></th>
+                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 3<br /><span className="text-[8px] text-slate-500 font-normal">Estandarizado / Colab.</span></th>
+                  <th className="py-3 px-4 w-[19.5%] text-slate-400 font-bold">Nivel 4<br /><span className="text-[8px] text-slate-500 font-normal">Optimizado / Integrado</span></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -832,9 +832,9 @@ const MaturitySlide = () => {
                             )}>
                               L{lvl.lvl}
                             </span>
-                            
+
                             <p className="pr-4">{lvl.text}</p>
-                            
+
                             {isActive && (
                               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-artis-orange via-artis-teal to-transparent" />
                             )}
@@ -847,10 +847,10 @@ const MaturitySlide = () => {
               </tbody>
             </table>
           </div>
-          
+
           <div className="p-4 bg-artis-orange/5 border border-artis-orange/10 rounded-sm">
             <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
-              <strong className="text-artis-orange font-bold uppercase tracking-wider font-mono mr-1">Instrucciones de Diagnóstico:</strong> 
+              <strong className="text-artis-orange font-bold uppercase tracking-wider font-mono mr-1">Instrucciones de Diagnóstico:</strong>
               Haga clic sobre cualquiera de los cuadrantes anteriores correspondientes al estado actual de las capacidades tecnológicas, procesológicas, humanas y de datos de su organización. Los resultados se actualizarán dinámicamente en la consola derecha en concordancia con sus factores de mercado.
             </p>
           </div>
@@ -860,10 +860,10 @@ const MaturitySlide = () => {
         <div className="space-y-4 font-sans">
           <div className="glass-panel p-5 rounded-sm border border-white/10 bg-[#090d16]/30 shadow-2xl relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-24 h-24 bg-artis-orange/5 blur-2xl pointer-events-none"></div>
-            
+
             <div>
               <span className="text-[9px] font-black text-artis-orange uppercase tracking-widest italic block mb-3">Consola Directiva</span>
-              
+
               <div className="text-center py-4 bg-white/2 rounded-sm border border-white/5 mb-4">
                 <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono">Madurez BIM Promedio</div>
                 <div className="text-5xl font-mono font-black text-white py-1">
@@ -887,7 +887,7 @@ const MaturitySlide = () => {
                         onClick={() => setTimeline(t)}
                         className={cn(
                           "py-1.5 rounded-xs text-[9px] font-bold uppercase select-none transition-all active:scale-95 border cursor-pointer",
-                          timeline === t 
+                          timeline === t
                             ? "bg-slate-100 text-artis-black border-transparent font-black shadow-md"
                             : "bg-white/2 text-slate-500 border-white/5 hover:bg-white/5 hover:text-white"
                         )}
@@ -909,7 +909,7 @@ const MaturitySlide = () => {
                         onClick={() => setBudget(b)}
                         className={cn(
                           "py-1.5 rounded-xs text-[9px] font-bold uppercase select-none transition-all active:scale-95 border cursor-pointer",
-                          budget === b 
+                          budget === b
                             ? "bg-slate-100 text-artis-black border-transparent font-black shadow-md"
                             : "bg-white/2 text-slate-500 border-white/5 hover:bg-white/5 hover:text-white"
                         )}
@@ -943,7 +943,7 @@ const MaturitySlide = () => {
 
 const ExecutionGuideSlide = () => {
   const [activeStep, setActiveStep] = useState(1);
-  
+
   // Interactive Simulator States
   const [tVal, setTVal] = useState(2);
   const [pVal, setPVal] = useState(2);
@@ -988,7 +988,7 @@ const ExecutionGuideSlide = () => {
   ];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="h-full flex flex-col max-w-7xl mx-auto overflow-y-auto pr-2 pb-10"
@@ -1029,8 +1029,8 @@ const ExecutionGuideSlide = () => {
             </div>
             <div className={cn(
               "w-5 h-5 rounded-full flex items-center justify-center font-mono text-[10px] font-black shrink-0 transition-transform",
-              activeStep === st.num 
-                ? "bg-artis-orange text-artis-black scale-110" 
+              activeStep === st.num
+                ? "bg-artis-orange text-artis-black scale-110"
                 : "bg-white/5 text-slate-500 group-hover:scale-105"
             )}>
               0{st.num}
@@ -1174,7 +1174,7 @@ const ExecutionGuideSlide = () => {
                             onClick={() => pl.setter(v)}
                             className={cn(
                               "w-7 h-7 rounded-sm border font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer",
-                              pl.val === v 
+                              pl.val === v
                                 ? "bg-artis-orange text-artis-black border-transparent shadow-[0_0_8px_rgba(255,85,17,0.3)] font-black"
                                 : "bg-white/5 border-white/5 text-slate-400 hover:border-white/20 hover:text-white"
                             )}
@@ -1190,7 +1190,7 @@ const ExecutionGuideSlide = () => {
                 {/* Simulated Chain Link indicating weakest link rule */}
                 <div className="bg-rose-500/5 border border-rose-500/10 p-5 rounded-sm">
                   <span className="text-[9.5px] font-black text-rose-400 uppercase tracking-wider block mb-3 font-mono text-left">Simulación de Cadena Operativa:</span>
-                  
+
                   <div className="flex gap-2.5 justify-center items-center py-2 select-none">
                     {pillars.map((pl, idx) => {
                       const isWeakest = pl.id === weakestPillar.id;
@@ -1199,8 +1199,8 @@ const ExecutionGuideSlide = () => {
                           {idx > 0 && <div className="h-[2px] w-4 bg-white/5 flex-1 max-w-[20px]" />}
                           <div className={cn(
                             "px-3 py-2.5 rounded-sm border text-center transition-all relative flex flex-col items-center justify-center min-w-[75px]",
-                            isWeakest 
-                              ? "bg-rose-500/15 border-rose-500/60 scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)] animate-pulse z-10" 
+                            isWeakest
+                              ? "bg-rose-500/15 border-rose-500/60 scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)] animate-pulse z-10"
                               : "bg-[#0b0e17]/30 border-white/5 opacity-55"
                           )}>
                             <span className="text-[12px] font-bold text-white block uppercase tracking-tight">{pl.id.toUpperCase()}</span>
@@ -1237,7 +1237,7 @@ const ExecutionGuideSlide = () => {
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono select-none">
                     1. Seleccione la Dimensión BIM solicitada por el Cliente:
                   </label>
-                  
+
                   <div className="grid grid-cols-4 gap-2.5">
                     {["3D", "4D", "5D", "7D"].map((dim) => {
                       const isActive = targetBim === dim;
@@ -1247,7 +1247,7 @@ const ExecutionGuideSlide = () => {
                           onClick={() => setTargetBim(dim)}
                           className={cn(
                             "py-3 rounded-sm border text-center transition-all select-none active:scale-95 cursor-pointer font-sans",
-                            isActive 
+                            isActive
                               ? "bg-gradient-to-br from-[#de1b7d]/25 to-artis-orange/5 border-artis-orange text-white font-black shadow-[0_0_12px_rgba(255,85,17,0.15)]"
                               : "bg-[#0b0e17]/50 hover:bg-[#0e1220]/80 border-white/5 text-slate-400"
                           )}
@@ -1266,7 +1266,7 @@ const ExecutionGuideSlide = () => {
 
                   <div className="bg-white/2 p-4 border border-white/5 rounded-sm space-y-3.5">
                     <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-widest block font-mono">BARRERAS METODOLÓGICAS (Procesos y Personas):</span>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-3 bg-[#0d1222] border border-white/5 rounded-xs">
                         <span className="block text-[8px] uppercase text-slate-500 tracking-wider font-bold">Procesos (P)</span>
@@ -1288,8 +1288,8 @@ const ExecutionGuideSlide = () => {
                   {/* Gatekeeper Check result */}
                   <div className={cn(
                     "p-4.5 rounded-sm border transition-all text-left flex items-start gap-4",
-                    isVmtViable 
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-white" 
+                    isVmtViable
+                      ? "bg-emerald-500/10 border-emerald-500/30 text-white"
                       : "bg-rose-500/10 border-rose-500/30 text-white"
                   )}>
                     <div className="p-2 rounded-full shrink-0 mt-0.5 bg-black/40">
@@ -1307,8 +1307,8 @@ const ExecutionGuideSlide = () => {
                         </strong>
                       </div>
                       <p className="text-[10.5px] leading-relaxed text-slate-300">
-                        {isVmtViable 
-                          ? `Su puntaje metodológico consolidado (L${minPeopleProcess}) es apto para el alcance ${targetBim}. Cuenta con los pilares base requeridos para iniciar.` 
+                        {isVmtViable
+                          ? `Su puntaje metodológico consolidado (L${minPeopleProcess}) es apto para el alcance ${targetBim}. Cuenta con los pilares base requeridos para iniciar.`
                           : `Para exigir entregables ${targetBim}, se requiere que Procesos (P) y Personas (H) alcancen mínimo el Nivel ${requiredLvl}. Su nivel actual consolidado es L${minPeopleProcess}. Si firma este alcance, incurrirá en pérdidas inmediatas.`}
                       </p>
                     </div>
@@ -1338,7 +1338,7 @@ const ExecutionGuideSlide = () => {
                             onClick={() => setBudget(b)}
                             className={cn(
                               "py-2 rounded-xs text-[9px] font-bold uppercase select-none transition-all border cursor-pointer",
-                              budget === b 
+                              budget === b
                                 ? "bg-slate-100 text-artis-black border-transparent font-black shadow-md"
                                 : "bg-[#0b0e17]/50 text-white/40 border-white/5 hover:bg-white/5 hover:text-white"
                             )}
@@ -1360,7 +1360,7 @@ const ExecutionGuideSlide = () => {
                             onClick={() => setTimeline(t)}
                             className={cn(
                               "py-2 rounded-xs text-[9px] font-bold uppercase select-none transition-all border cursor-pointer",
-                              timeline === t 
+                              timeline === t
                                 ? "bg-slate-100 text-artis-black border-transparent font-black shadow-md"
                                 : "bg-[#0b0e17]/50 text-white/40 border-white/5 hover:bg-white/5 hover:text-white"
                             )}
@@ -1381,7 +1381,7 @@ const ExecutionGuideSlide = () => {
                         <span className="text-[8px] font-mono uppercase text-slate-500">Tecnología</span>
                       </div>
                       <p className="text-[10.5px] text-slate-300 leading-normal">
-                        {tVal === 1 
+                        {tVal === 1
                           ? budget === "Limitado"
                             ? "🚨 VIABILIDAD CRÍTICA: Los ordenadores actuales gama baja no soportarán modelado 3D BIM. Su presupuesto limitado obstaculiza actualizar el hardware básico."
                             : "✅ VIABLE: Cuenta con equipos débiles, pero el presupuesto asignado permite financiar la renovación tecnológica indispensable."
@@ -1397,7 +1397,7 @@ const ExecutionGuideSlide = () => {
                         <span className="text-[8px] font-mono uppercase text-slate-500">Procesos</span>
                       </div>
                       <p className="text-[10.5px] text-slate-300 leading-normal">
-                        {pVal < 3 
+                        {pVal < 3
                           ? budget === "Limitado"
                             ? "🚨 VIABILIDAD CRÍTICA: No es financiable licenciar entornos de datos avanzados (CDE) con presupuesto restringido. Colaboración fragmentada."
                             : "✅ VIABLE: El presupuesto holgado permite adquirir licencias y planificar repositorios en la nube bajo normas ISO 19650."
@@ -1435,7 +1435,7 @@ const ExecutionGuideSlide = () => {
 
                 {/* Structured Roadmap Timeline vertical layout */}
                 <div className="space-y-4 text-left select-none relative pl-6 border-l border-white/10 ml-2">
-                  
+
                   {/* Phase 1 */}
                   <div className="relative">
                     <div className="absolute -left-[31px] top-1 px-1.5 py-0.5 bg-artis-orange text-artis-black font-mono text-[8px] font-black rounded-sm border border-[#de1b7d]">
@@ -1508,12 +1508,12 @@ const AIChatSlide = () => {
   const askAI = async () => {
     if (!query.trim()) return;
     setLoading(true);
-    setResponse(""); 
-    
+    setResponse("");
+
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
       const prompt = `Actúa como un consultor BIM Senior experto para directivos TEDI. Responde de forma ejecutiva, enfocada en negocio, ROI y riesgos a la siguiente pregunta: "${query}"`;
-      
+
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: prompt
@@ -1541,57 +1541,57 @@ const AIChatSlide = () => {
 
       <div className="glass-panel rounded-sm flex-1 overflow-hidden flex flex-col relative border-artis-orange/5">
         <div className="absolute inset-0 immersive-grid opacity-5 pointer-events-none"></div>
-        
+
         <div className="flex-1 p-10 overflow-y-auto z-10 space-y-8" ref={chatRef}>
           {!response && !loading && (
-             <div className="h-full flex flex-col items-center justify-center text-slate-600 gap-6">
-                <div className="w-20 h-20 border border-artis-orange/10 rounded-full flex items-center justify-center bg-artis-black shadow-2xl">
-                  <MessageSquare className="w-8 h-8 opacity-40 text-artis-orange" />
-                </div>
-                <div className="text-center">
-                  <p className="font-bold uppercase tracking-widest text-[10px] mb-2 opacity-60">Canal Seguro TEDI Establecido</p>
-                  <p className="text-[10px] opacity-40">Introduzca su consulta ejecutiva en el terminal inferior.</p>
-                </div>
-             </div>
-          )}
-          
-          {loading && (
-            <div className="flex gap-6 items-start animate-fade-in group">
-               <div className="w-10 h-10 rounded-sm bg-artis-orange/10 border border-artis-orange/20 flex items-center justify-center text-artis-orange font-mono text-xs font-bold">AI</div>
-               <div className="flex flex-col gap-2">
-                  <div className="w-64 h-3 bg-slate-800 rounded animate-pulse opacity-50" />
-                  <div className="w-96 h-3 bg-slate-800 rounded animate-pulse opacity-30" />
-                  <div className="w-48 h-3 bg-slate-800 rounded animate-pulse opacity-20" />
-               </div>
+            <div className="h-full flex flex-col items-center justify-center text-slate-600 gap-6">
+              <div className="w-20 h-20 border border-artis-orange/10 rounded-full flex items-center justify-center bg-artis-black shadow-2xl">
+                <MessageSquare className="w-8 h-8 opacity-40 text-artis-orange" />
+              </div>
+              <div className="text-center">
+                <p className="font-bold uppercase tracking-widest text-[10px] mb-2 opacity-60">Canal Seguro TEDI Establecido</p>
+                <p className="text-[10px] opacity-40">Introduzca su consulta ejecutiva en el terminal inferior.</p>
+              </div>
             </div>
           )}
-          
+
+          {loading && (
+            <div className="flex gap-6 items-start animate-fade-in group">
+              <div className="w-10 h-10 rounded-sm bg-artis-orange/10 border border-artis-orange/20 flex items-center justify-center text-artis-orange font-mono text-xs font-bold">AI</div>
+              <div className="flex flex-col gap-2">
+                <div className="w-64 h-3 bg-slate-800 rounded animate-pulse opacity-50" />
+                <div className="w-96 h-3 bg-slate-800 rounded animate-pulse opacity-30" />
+                <div className="w-48 h-3 bg-slate-800 rounded animate-pulse opacity-20" />
+              </div>
+            </div>
+          )}
+
           {response && (
             <div className="flex gap-6 items-start animate-fade-in">
-               <div className="w-10 h-10 rounded-sm bg-artis-orange border border-artis-orange-deep flex items-center justify-center text-artis-black font-black text-xs shadow-lg">AI</div>
-               <div className="flex-1 text-slate-300 leading-relaxed font-medium bg-artis-teal-dark/5 p-8 rounded-sm border border-white/5 prose prose-invert max-w-none">
-                  {response.split('\n').filter(l => l.trim()).map((line, i) => (
-                    <p key={i} className="mb-4 last:mb-0 text-sm">
-                       {line.split('**').map((part, index) => (
-                         index % 2 === 1 ? <strong key={index} className="text-artis-orange font-bold font-mono">{part}</strong> : part
-                       ))}
-                    </p>
-                  ))}
-               </div>
+              <div className="w-10 h-10 rounded-sm bg-artis-orange border border-artis-orange-deep flex items-center justify-center text-artis-black font-black text-xs shadow-lg">AI</div>
+              <div className="flex-1 text-slate-300 leading-relaxed font-medium bg-artis-teal-dark/5 p-8 rounded-sm border border-white/5 prose prose-invert max-w-none">
+                {response.split('\n').filter(l => l.trim()).map((line, i) => (
+                  <p key={i} className="mb-4 last:mb-0 text-sm">
+                    {line.split('**').map((part, index) => (
+                      index % 2 === 1 ? <strong key={index} className="text-artis-orange font-bold font-mono">{part}</strong> : part
+                    ))}
+                  </p>
+                ))}
+              </div>
             </div>
           )}
         </div>
 
         <div className="p-6 border-t border-white/5 bg-artis-black z-20 flex gap-4">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && askAI()}
             placeholder="CONSULTA: [EJE: IMPACTO EN VALORACIÓN DE ACTIVOS]"
             className="flex-1 bg-artis-teal-dark/10 border border-white/5 rounded-sm px-6 py-4 font-mono text-[10px] text-white placeholder:text-slate-700 focus:outline-hidden focus:border-artis-orange/50 transition-all uppercase tracking-widest"
           />
-          <button 
+          <button
             disabled={loading}
             onClick={askAI}
             className="bg-white text-artis-black px-8 py-4 rounded-sm font-black text-[9px] uppercase tracking-[0.2em] hover:bg-artis-orange transition-all disabled:opacity-50 flex items-center gap-3 shrink-0 shadow-xl"
@@ -1626,20 +1626,20 @@ export default function App() {
   return (
     <div className="flex h-screen w-full bg-artis-black overflow-hidden text-slate-100 font-sans selection:bg-artis-orange/30 selection:text-white">
       <Sidebar current={slide} total={totalSlides} onJump={setSlide} />
-      
+
       <main className="flex-1 relative flex flex-col p-10 lg:p-16 overflow-hidden">
         {/* Immersive Backdrop */}
         <div className="absolute inset-0 immersive-grid opacity-20 pointer-events-none"></div>
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-artis-orange/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-artis-teal/5 blur-[120px] rounded-full pointer-events-none"></div>
-        
+
         {/* Progress System */}
         <div className="absolute top-0 left-0 w-full h-1 bg-white/5">
-           <motion.div 
-            className="h-full bg-artis-orange shadow-[0_0_10px_rgba(255,164,0,0.6)]" 
+          <motion.div
+            className="h-full bg-artis-orange shadow-[0_0_10px_rgba(255,164,0,0.6)]"
             initial={{ width: 0 }}
             animate={{ width: `${((slide + 1) / totalSlides) * 100}%` }}
-           />
+          />
         </div>
 
         {/* Content Area */}
@@ -1674,40 +1674,40 @@ export default function App() {
 
         {/* Action Bar */}
         <div className="mt-auto flex items-center justify-between pt-10 border-t border-white/5 z-10">
-           <div className="flex items-center gap-6">
-             <div className="text-[9px] font-mono text-slate-600 uppercase tracking-[0.4em] font-bold">
-               SECUENCIA ARTIS [{slide + 1}/{totalSlides}]
-             </div>
-             <div className="h-4 w-px bg-white/5"></div>
-             <div className="flex gap-2">
-                {[...Array(totalSlides)].map((_, i) => (
-                  <div key={i} className={cn("w-6 h-1 transition-all duration-500", i <= slide ? "bg-artis-orange" : "bg-white/5")}></div>
-                ))}
-             </div>
-           </div>
-           
-           <div className="flex gap-4">
-             <button 
-               onClick={prevSlide}
-               disabled={slide === 0}
-               className={cn(
-                 "px-6 py-4 rounded-sm border border-white/5 transition-all font-bold text-[9px] uppercase tracking-widest",
-                 slide === 0 ? "opacity-10 cursor-not-allowed" : "hover:bg-white/5 hover:border-white/10 active:scale-95"
-               )}
-             >
-               Regresar
-             </button>
-             <button 
-               onClick={nextSlide}
-               className={cn(
-                 "flex items-center gap-3 bg-white text-artis-black px-10 py-4 rounded-sm font-black text-[9px] uppercase tracking-[0.2em] transition-all hover:bg-slate-200 active:scale-95 shadow-xl",
-                 slide === totalSlides -1 && "bg-artis-orange text-artis-black hover:bg-artis-orange-deep"
-               )}
-             >
-               {slide === totalSlides - 1 ? "Finalizar Presentación" : "Siguiente Módulo"}
-               {slide !== totalSlides - 1 && <ArrowRight className="w-3 h-3" />}
-             </button>
-           </div>
+          <div className="flex items-center gap-6">
+            <div className="text-[9px] font-mono text-slate-600 uppercase tracking-[0.4em] font-bold">
+              SECUENCIA ARTIS [{slide + 1}/{totalSlides}]
+            </div>
+            <div className="h-4 w-px bg-white/5"></div>
+            <div className="flex gap-2">
+              {[...Array(totalSlides)].map((_, i) => (
+                <div key={i} className={cn("w-6 h-1 transition-all duration-500", i <= slide ? "bg-artis-orange" : "bg-white/5")}></div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <button
+              onClick={prevSlide}
+              disabled={slide === 0}
+              className={cn(
+                "px-6 py-4 rounded-sm border border-white/5 transition-all font-bold text-[9px] uppercase tracking-widest",
+                slide === 0 ? "opacity-10 cursor-not-allowed" : "hover:bg-white/5 hover:border-white/10 active:scale-95"
+              )}
+            >
+              Regresar
+            </button>
+            <button
+              onClick={nextSlide}
+              className={cn(
+                "flex items-center gap-3 bg-white text-artis-black px-10 py-4 rounded-sm font-black text-[9px] uppercase tracking-[0.2em] transition-all hover:bg-slate-200 active:scale-95 shadow-xl",
+                slide === totalSlides - 1 && "bg-artis-orange text-artis-black hover:bg-artis-orange-deep"
+              )}
+            >
+              {slide === totalSlides - 1 ? "Finalizar Presentación" : "Siguiente Módulo"}
+              {slide !== totalSlides - 1 && <ArrowRight className="w-3 h-3" />}
+            </button>
+          </div>
         </div>
       </main>
     </div>
