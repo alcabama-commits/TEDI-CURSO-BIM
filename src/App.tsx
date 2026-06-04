@@ -22,7 +22,9 @@ import { CicloIntroSlide } from './components/CicloIntroSlide';
 import { CdeFlowSlide } from './components/CdeFlowSlide';
 import { ContratosBimSlide } from './components/ContratosBimSlide';
 import { RolesBimSlide } from './components/RolesBimSlide';
-import { RefreshCw, Share2 } from 'lucide-react';
+import { EquiposBimSlide } from './components/EquiposBimSlide';
+import { BepStructureSlide } from './components/BepStructureSlide';
+import { RefreshCw, Share2, Network, HardHat } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -234,6 +236,11 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
     { idx: 12, title: "3. Cláusulas BIM", icon: <FileText className="w-4 h-4" /> },
   ];
 
+  const clase4Steps = [
+    { idx: 13, title: "Equipos BIM", icon: <Users2 className="w-4 h-4" /> },
+    { idx: 14, title: "Estructura BEP", icon: <FileText className="w-4 h-4" /> },
+  ];
+
   return (
     <div className="hidden lg:flex flex-col w-72 bg-artis-black text-white p-8 justify-between border-r border-white/5 relative overflow-hidden">
       <div className="absolute inset-0 immersive-grid opacity-10 pointer-events-none"></div>
@@ -282,6 +289,29 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
                   )}
                 >
                   <span className={cn(current === step.idx ? "text-pink-500" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-[#38bdf8] uppercase tracking-[0.25em] font-mono">
+              Clase 4: Recursos ISO
+            </div>
+            <div className="space-y-1">
+              {clase4Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-[#38bdf8]/15 text-white border border-[#38bdf8]/35 shadow-[0_0_15px_rgba(56,189,248,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-[#38bdf8]" : "text-slate-600")}>{step.icon}</span>
                   {step.title}
                 </button>
               ))}
@@ -971,7 +1001,7 @@ const ExecutionGuideSlide = () => {
             Guía de Ejecución: <span className="text-white">Los 4 Pasos</span>
           </h2>
           <p className="text-slate-400 text-xs">
-            Metodología analítica estructurada para alumnos y consultores directivos TEDI.
+            Metodología analítica estructurada para estudiantes y consultores directivos TEDI.
           </p>
         </div>
         <div className="bg-artis-black px-4 py-2 border border-white/5 rounded-full flex items-center gap-3 shrink-0">
@@ -1579,7 +1609,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 13;
+  const totalSlides = 15;
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
   const prevSlide = () => setSlide(s => Math.max(s - 1, 0));
@@ -1636,6 +1666,8 @@ export default function App() {
               {slide === 10 && <CascadaSlide />}
               {slide === 11 && <CdeFlowSlide />}
               {slide === 12 && <ContratosBimSlide />}
+              {slide === 13 && <EquiposBimSlide />}
+              {slide === 14 && <BepStructureSlide />}
             </motion.div>
           </AnimatePresence>
         </div>
