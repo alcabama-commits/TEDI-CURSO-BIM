@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
@@ -25,7 +25,11 @@ import { RolesBimSlide } from './components/RolesBimSlide';
 import { EquiposBimSlide } from './components/EquiposBimSlide';
 import { BepStructureSlide } from './components/BepStructureSlide';
 import { CdeConfigGuideSlide } from './components/CdeConfigGuideSlide';
-import { RefreshCw, Share2, Network, HardHat } from 'lucide-react';
+import { SeguridadBimSlide } from './components/SeguridadBimSlide';
+import { PoliticaSeguridadSlide } from './components/PoliticaSeguridadSlide';
+import { AlmacenamientoBimSlide } from './components/AlmacenamientoBimSlide';
+import { PropiedadIntelectualSlide } from './components/PropiedadIntelectualSlide';
+import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -217,7 +221,19 @@ const Building3D = ({ showData = false, showCost = false, showStatus = false, sh
   );
 };
 
-const Sidebar = ({ current, total, onJump }: { current: number; total: number; onJump: (i: number) => void }) => {
+const Sidebar = ({ 
+  current, 
+  total, 
+  onJump,
+  width,
+  onWidthChange
+}: { 
+  current: number; 
+  total: number; 
+  onJump: (i: number) => void;
+  width: number;
+  onWidthChange: (w: number) => void;
+}) => {
   const clase1Steps = [
     { idx: 0, title: "Inicio", icon: <Building2 className="w-4 h-4" /> },
     { idx: 1, title: "1. Fundamento", icon: <Layers className="w-4 h-4" /> },
@@ -246,13 +262,55 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
     { idx: 15, title: "Configuración CDE", icon: <Network className="w-4 h-4" /> },
   ];
 
+  const clase6Steps = [
+    { idx: 16, title: "Introducción: Ciberseguridad", icon: <ShieldAlert className="w-4 h-4" /> },
+    { idx: 17, title: "1. Política de Seguridad", icon: <ShieldCheck className="w-4 h-4" /> },
+    { idx: 18, title: "2. Escalar Almacenamiento", icon: <HardDrive className="w-4 h-4" /> },
+    { idx: 19, title: "3. Propiedad Intelectual", icon: <Scale className="w-4 h-4" /> },
+  ];
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = width;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const nextWidth = Math.max(220, Math.min(480, startWidth + (moveEvent.clientX - startX)));
+      onWidthChange(nextWidth);
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
-    <div className="hidden lg:flex flex-col w-72 bg-artis-black text-white p-8 justify-between border-r border-white/5 relative overflow-hidden">
+    <div 
+      style={{ width: `${width}px` }}
+      className="hidden lg:flex flex-col h-screen max-h-screen bg-artis-black text-white p-6 pb-8 border-r border-white/5 relative overflow-hidden shrink-0"
+    >
       <div className="absolute inset-0 immersive-grid opacity-10 pointer-events-none"></div>
-      <div className="relative z-10">
-        <div className="mb-12">
-          <TediLogo />
-        </div>
+
+      {/* Aesthetic drag handle border */}
+      <div 
+        onMouseDown={handleMouseDown}
+        className="absolute right-0 top-0 bottom-0 w-2 hover:w-2.5 bg-transparent hover:bg-artis-orange/10 active:bg-artis-orange/20 cursor-col-resize z-50 transition-all flex items-center justify-center group"
+        title="Arrastra para cambiar tamaño de barra"
+      >
+        <div className="w-[2px] h-14 rounded bg-white/15 group-hover:bg-artis-orange/60 group-active:bg-artis-orange transition-all"></div>
+      </div>
+      
+      {/* Top logo container, fixed */}
+      <div className="relative z-10 shrink-0 mb-8">
+        <TediLogo />
+      </div>
+
+      {/* Scrollable navigation list */}
+      <div className="relative z-10 flex-1 min-h-0 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
         <nav className="space-y-6">
           <div>
             <div className="px-4 mb-3 text-[8px] font-black text-slate-500 uppercase tracking-[0.25em] font-mono">
@@ -345,9 +403,34 @@ const Sidebar = ({ current, total, onJump }: { current: number; total: number; o
               ))}
             </div>
           </div>
+
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-[#fbbf24] uppercase tracking-[0.25em] font-mono">
+              Clase 5: Seguridad e ISO 27002
+            </div>
+            <div className="space-y-1">
+              {clase6Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-[#fbbf24]/15 text-white border border-[#fbbf24]/35 shadow-[0_0_15px_rgba(251,191,36,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-[#fbbf24]" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
         </nav>
       </div>
-      <div className="relative z-10">
+
+      {/* Bottom Status panel, fixed */}
+      <div className="relative z-10 shrink-0 mt-6">
         <div className="px-4 py-3 bg-artis-teal-dark/30 border border-artis-teal/20 rounded-xl">
           <div className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Status Metodológico</div>
           <div className="flex items-center gap-2">
@@ -1637,7 +1720,8 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 16;
+  const totalSlides = 20;
+  const [sidebarWidth, setSidebarWidth] = useState(288); // Default to 288px (w-72 equivalent)
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
   const prevSlide = () => setSlide(s => Math.max(s - 1, 0));
@@ -1653,7 +1737,13 @@ export default function App() {
 
   return (
     <div className="flex h-screen w-full bg-artis-black overflow-hidden text-slate-100 font-sans selection:bg-artis-orange/30 selection:text-white">
-      <Sidebar current={slide} total={totalSlides} onJump={setSlide} />
+      <Sidebar 
+        current={slide} 
+        total={totalSlides} 
+        onJump={setSlide} 
+        width={sidebarWidth}
+        onWidthChange={setSidebarWidth}
+      />
       
       <main className="flex-1 relative flex flex-col p-10 lg:p-16 overflow-hidden">
         {/* Immersive Backdrop */}
@@ -1697,6 +1787,10 @@ export default function App() {
               {slide === 13 && <EquiposBimSlide />}
               {slide === 14 && <BepStructureSlide />}
               {slide === 15 && <CdeConfigGuideSlide />}
+              {slide === 16 && <SeguridadBimSlide />}
+              {slide === 17 && <PoliticaSeguridadSlide />}
+              {slide === 18 && <AlmacenamientoBimSlide />}
+              {slide === 19 && <PropiedadIntelectualSlide />}
             </motion.div>
           </AnimatePresence>
         </div>

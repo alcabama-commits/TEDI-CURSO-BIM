@@ -666,7 +666,7 @@ export const CascadaSlide = () => {
 
             <div className="pt-6 border-t border-white/5 text-[9.5px] text-slate-500 uppercase tracking-wider select-none font-mono flex items-center gap-1.5 mt-6 justify-between">
               <span className="flex items-center gap-1">
-                <Info className="w-3.5 h-3.5 text-[#de1b7d]" /> TEDI Módulo de Gobernanza Digital
+                <Info className="w-3.5 h-3.5 text-[#de1b7d]" /> Módulo de Gobernanza Digital
               </span>
               <span className="text-[#de1b7d] font-black">PASO 01</span>
             </div>

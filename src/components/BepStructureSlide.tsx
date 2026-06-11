@@ -1314,7 +1314,7 @@ export const BepStructureSlide = () => {
       <div className="relative mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[8px] font-mono text-zinc-500 tracking-wider uppercase gap-2 select-none">
         <span>Artis Business School © BIM Corporate Training</span>
         <div className="flex gap-4">
-          <span>Clase 4: Recursos Directivos TEDI</span>
+          <span>Clase 4: Recursos Directivos</span>
           <span className="text-white bg-white/5 px-2 py-0.5 rounded border border-white/5">ISO 19650-2 Completo</span>
         </div>
       </div>
