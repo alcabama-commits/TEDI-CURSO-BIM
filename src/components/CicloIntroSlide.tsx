@@ -491,7 +491,7 @@ export const CicloIntroSlide = () => {
                     {currentItem.badgeText}
                   </span>
                   <span className="text-[8px] text-slate-500 font-mono uppercase font-bold">
-                    TEDI METODIC
+                    METODIC
                   </span>
                 </div>
 

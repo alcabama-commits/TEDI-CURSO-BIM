@@ -151,7 +151,7 @@ export const SeguridadBimSlide = () => {
               <div className="p-5 bg-amber-500/5 rounded border border-amber-500/20 text-left">
                 <span className="text-[10px] uppercase font-bold tracking-wider font-mono text-amber-500 block mb-1">FUNDAMENTO PRINCIPAL</span>
                 <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                  Explica a tus alumnos que, según los fundamentos de seguridad de la información, los datos de un proyecto no se protegen militarmente simplemente &quot;porque sí&quot;. Se resguardan para garantizar <strong>tres cualidades inmutables (la Tríada CIA)</strong>, sin importar si los datos se plasman en un plano impreso llevado en el maletín de obra o se alojan en un moderno clúster en la nube de Azure:
+                  Según los fundamentos de seguridad de la información, los datos de un proyecto no se protegen militarmente simplemente &quot;porque sí&quot;. Se resguardan para garantizar <strong>tres cualidades inmutables (la Tríada CIA)</strong>, sin importar si los datos se plasman en un plano impreso llevado en el maletín de obra o se alojan en un moderno clúster en la nube de Azure:
                 </p>
               </div>
 
@@ -571,7 +571,7 @@ export const SeguridadBimSlide = () => {
                     </div>
 
                     <div className="mt-4 p-3 bg-black/45 border border-white/5 rounded text-[10px] text-slate-400 leading-normal italic">
-                      💡 <strong>Mensaje Clave del Docente:</strong> Enséñele a sus alumnos que un software CDE o un entorno de modelado desatendido es un blanco directo. La seguridad se diseña desde el contrato y los privilegios jerárquicos del personal.
+                      💡 <strong>Mensaje Clave del Docente:</strong> Un software CDE o un entorno de modelado desatendido es un blanco directo. La seguridad se diseña desde el contrato y los privilegios jerárquicos del personal.
                     </div>
                   </div>
 

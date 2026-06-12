@@ -1660,7 +1660,7 @@ const AIChatSlide = () => {
                   <MessageSquare className="w-8 h-8 opacity-40 text-artis-orange" />
                 </div>
                 <div className="text-center">
-                  <p className="font-bold uppercase tracking-widest text-[10px] mb-2 opacity-60">Canal Seguro TEDI Establecido</p>
+                  <p className="font-bold uppercase tracking-widest text-[10px] mb-2 opacity-60">Canal Seguro Establecido</p>
                   <p className="text-[10px] opacity-40">Introduzca su consulta ejecutiva en el terminal inferior.</p>
                 </div>
              </div>
