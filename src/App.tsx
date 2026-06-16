@@ -29,7 +29,10 @@ import { SeguridadBimSlide } from './components/SeguridadBimSlide';
 import { PoliticaSeguridadSlide } from './components/PoliticaSeguridadSlide';
 import { AlmacenamientoBimSlide } from './components/AlmacenamientoBimSlide';
 import { PropiedadIntelectualSlide } from './components/PropiedadIntelectualSlide';
-import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale } from 'lucide-react';
+import { ClasificacionBimSlide } from './components/ClasificacionBimSlide';
+import { ComparativaClasificacionSlide } from './components/ComparativaClasificacionSlide';
+import { EstrategiasDatosSlide } from './components/EstrategiasDatosSlide';
+import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -269,6 +272,12 @@ const Sidebar = ({
     { idx: 19, title: "3. Propiedad Intelectual", icon: <Scale className="w-4 h-4" /> },
   ];
 
+  const clase7Steps = [
+    { idx: 20, title: "1. Clasificación", icon: <Tag className="w-4 h-4" /> },
+    { idx: 21, title: "2. Comparativa de Sistemas", icon: <Layers className="w-4 h-4" /> },
+    { idx: 22, title: "3. Estrategias de Datos", icon: <Database className="w-4 h-4" /> },
+  ];
+
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     const startX = e.clientX;
@@ -421,6 +430,29 @@ const Sidebar = ({
                   )}
                 >
                   <span className={cn(current === step.idx ? "text-[#fbbf24]" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-pink-500 uppercase tracking-[0.25em] font-mono">
+              Clase 6: Sistemas de Clasificación
+            </div>
+            <div className="space-y-1">
+              {clase7Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-pink-500/15 text-white border border-pink-500/35 shadow-[0_0_15px_rgba(236,72,153,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-pink-500" : "text-slate-600")}>{step.icon}</span>
                   {step.title}
                 </button>
               ))}
@@ -1720,7 +1752,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 20;
+  const totalSlides = 23;
   const [sidebarWidth, setSidebarWidth] = useState(288); // Default to 288px (w-72 equivalent)
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
@@ -1791,6 +1823,9 @@ export default function App() {
               {slide === 17 && <PoliticaSeguridadSlide />}
               {slide === 18 && <AlmacenamientoBimSlide />}
               {slide === 19 && <PropiedadIntelectualSlide />}
+              {slide === 20 && <ClasificacionBimSlide />}
+              {slide === 21 && <ComparativaClasificacionSlide />}
+              {slide === 22 && <EstrategiasDatosSlide />}
             </motion.div>
           </AnimatePresence>
         </div>
