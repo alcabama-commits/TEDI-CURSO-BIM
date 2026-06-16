@@ -7,20 +7,6 @@ import {
   Globe, Award, Bookmark, ArrowRight, Eye
 } from 'lucide-react';
 
-interface ElementInfo {
-  name: string;
-  category: string;
-  omniClassCode: string;
-  omniClassPath: string[];
-  uniClassCode: string;
-  uniClassPath: string[];
-  masterFormatCode: string;
-  masterFormatPath: string[];
-  uniFormatCode: string;
-  uniFormatPath: string[];
-  bimApplication: string;
-}
-
 interface AnimalTaxonomy {
   name: string;
   scientificName: string;
@@ -36,10 +22,6 @@ interface AnimalTaxonomy {
 export const ClasificacionBimSlide = () => {
   // Tabs: 'bim' (Clasificación Técnica Estándar) or 'animal' (Analogía Visual)
   const [activeTab, setActiveTab] = useState<'bim' | 'animal'>('bim');
-
-  // Elements to simulate building classification
-  const [selectedElement, setSelectedElement] = useState<'wall' | 'footing' | 'door' | 'light'>('wall');
-  const [selectedStandard, setSelectedStandard] = useState<'omniclass' | 'uniclass' | 'masterformat' | 'uniformat'>('omniclass');
   
   // Animal taxonomy state
   const [selectedAnimal, setSelectedAnimal] = useState<'lion' | 'dolphin' | 'eagle' | 'chameleon'>('lion');
@@ -47,133 +29,6 @@ export const ClasificacionBimSlide = () => {
 
   // Custom states for interactive characteristics
   const [activeChar, setActiveChar] = useState<string>('estructurado');
-
-  // Realistic building elements classification data with Uniformat added
-  const elementsData: Record<'wall' | 'footing' | 'door' | 'light', ElementInfo> = {
-    wall: {
-      name: "Muro Exterior de Hormigón",
-      category: "Elementos / Sistemas de Cerramiento",
-      omniClassCode: "21-02 10 20",
-      omniClassPath: [
-        "Tabla 21: Elements (Elementos de Construcción)",
-        "21-02: Superstructure & Shell (Superestructura y Envoltura)",
-        "21-02 10: Exterior Vertical Enclosures (Cerramientos Verticales Exteriores)",
-        "21-02 10 20: Exterior Walls (Muros Exteriores)"
-      ],
-      uniClassCode: "Ss_25_10_30",
-      uniClassPath: [
-        "Ss: Systems (Sistemas)",
-        "Ss_25: Wall, barrier and cladding systems (Sistemas de Muros y Revestimientos)",
-        "Ss_25_10: Wall systems (Sistemas de Paredes)",
-        "Ss_25_10_30: External wall systems (Sistemas de Muros Exteriores)"
-      ],
-      masterFormatCode: "03 30 00",
-      masterFormatPath: [
-        "División 03: Concrete (Hormigón / Concreto)",
-        "03 30 00: Cast-in-Place Concrete (Hormigón Moldeado in Situ)",
-        "Muros Estructurales de Carga Terrestre"
-      ],
-      uniFormatCode: "B2010",
-      uniFormatPath: [
-        "Categoría B: Shell (Envoltura de Edificio)",
-        "B20: Exterior Enclosure (Cerramiento Exterior)",
-        "B2010: Exterior Walls (Sistemas de Muros Exteriores en Fachada)"
-      ],
-      bimApplication: "Rebasa las consultas manuales. En Revit o Archicad, este código permite calcular automáticamente el área exterior expuesta a vientos para análisis de transmitancia térmica y cubicación de pintura."
-    },
-    footing: {
-      name: "Zapata de Fundación Aislada",
-      category: "Cimentación / Estructura de Soporte",
-      omniClassCode: "21-01 10 10",
-      omniClassPath: [
-        "Tabla 21: Elements (Elementos de Construcción)",
-        "21-01: Substructure (Subestructura)",
-        "21-01 10: Foundations (Cimentaciones)",
-        "21-01 10 10: Standard Foundations (Cimentaciones Convencionales)"
-      ],
-      uniClassCode: "Ef_15_10",
-      uniClassPath: [
-        "Ef: Elements (Elementos)",
-        "Ef_15: Ground and foundation elements (Elementos de Terreno y Fundación)",
-        "Ef_15_10: Foundations (Cimentaciones de Soporte Fijo)"
-      ],
-      masterFormatCode: "03 11 13",
-      masterFormatPath: [
-        "División 03: Concrete (Hormigón / Concreto)",
-        "03 11 00: Concrete Forming (Encofrados de Concreto)",
-        "03 11 13: Structural Cast-in-Place Concrete Forming (Moldes de Zapata)"
-      ],
-      uniFormatCode: "A1010",
-      uniFormatPath: [
-        "Categoría A: Substructure (Subestructura)",
-        "A10: Foundations (Cimentaciones de Soporte)",
-        "A1010: Standard Foundations (Zapata o base de fundación corrida)"
-      ],
-      bimApplication: "Permite al software de presupuesto (Navisworks, Presto o CYPE) agrupar todas las zapatas e identificar de inmediato la dosificación del hormigón y metros cúbicos requeridos."
-    },
-    door: {
-      name: "Puerta de Madera contra Incendios",
-      category: "Carpintería / Aperturas",
-      omniClassCode: "23-30 10 10",
-      omniClassPath: [
-        "Tabla 23: Products (Productos de Construcción)",
-        "23-30: Openings, Passages & Protective Devices (Aperturas y Dispositivos de Protección)",
-        "23-30 10: Doors & Gates (Puertas e Ingresos)",
-        "23-30 10 10: Wood Doors (Puertas de Madera)"
-      ],
-      uniClassCode: "Pr_30_59_24",
-      uniClassPath: [
-        "Pr: Products (Productos)",
-        "Pr_30: Structure and enclosure products (Productos Estructurales y de Envoltura)",
-        "Pr_30_59: Door and window products (Sistemas de Madera de Paso)",
-        "Pr_30_59_24: Door assemblies (Conjuntos de Puertas Completos)"
-      ],
-      masterFormatCode: "08 14 16",
-      masterFormatPath: [
-        "División 08: Openings (Aperturas / Puertas y Ventanas)",
-        "08 14 00: Wood Doors (Puertas de Madera Nativas)",
-        "08 14 16: Flush Wood Doors (Puertas Lisas de Madera Compuesta)"
-      ],
-      uniFormatCode: "B2030",
-      uniFormatPath: [
-        "Categoría B: Shell (Envoltura de Edificio)",
-        "B20: Exterior Enclosure (Cerramiento Exterior)",
-        "B2030: Exterior Doors (Puertas y Accesos Exteriores Cortafuegos)"
-      ],
-      bimApplication: "Almacena los parámetros de resistencia al fuego del modelo nativo. El auditor de seguridad de bomberos puede aislar rápidamente la categoría con búsqueda de código y comprobar el cumplimiento de horas de resguardo."
-    },
-    light: {
-      name: "Luminaria Embutida LED",
-      category: "Equipos Eléctricos / Iluminación",
-      omniClassCode: "23-85 10 10",
-      omniClassPath: [
-        "Tabla 23: Products (Productos)",
-        "23-85: Electrical & Lighting Products (Productos Eléctricos y de Luminotecnia)",
-        "23-85 10: Luminaires (Luminarias de Distribución Fotométrica)",
-        "23-85 10 10: Indoor Luminaires (Luminarias Interiores Estándar)"
-      ],
-      uniClassCode: "Pr_70_70_47",
-      uniClassPath: [
-        "Pr: Products (Productos de Obra)",
-        "Pr_70: Services products (Sistemas de Servicio de Distribución)",
-        "Pr_70_70: Electrical and lighting products (Productos de Suministro Eléctrico)",
-        "Pr_70_70_47: Luminaires (Luminarias LED Embutidas)"
-      ],
-      masterFormatCode: "26 51 19",
-      masterFormatPath: [
-        "División 26: Electrical (Sistemas Eléctricos)",
-        "26 51 00: Interior Lighting (Iluminación de Espacios Interiores)",
-        "26 51 19: LED Interior Lighting (Luminarias de Tecnología de Diodos)"
-      ],
-      uniFormatCode: "D5020",
-      uniFormatPath: [
-        "Categoría D: Services (Instalaciones y Servicios)",
-        "D50: Electrical (Instalaciones Eléctricas Técnicas)",
-        "D5020: Lighting and Branch Wiring (Alumbrado y Circuitos Derivados)"
-      ],
-      bimApplication: "Indispensable para el Facility Management (Gestión de Operaciones). Facilita al equipo de mantenimiento geolocalizar la marca y reemplazar el bulbo en el modelo usando la codificación única en la base de datos de activos (AIM)."
-    }
-  };
 
   // Animal Taxonomy data for visual comparison
   const animalData: Record<'lion' | 'dolphin' | 'eagle' | 'chameleon', AnimalTaxonomy> = {
@@ -377,173 +232,14 @@ export const ClasificacionBimSlide = () => {
             {/* Interactive Section 1: Explora la Estructura en Acción */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-              {/* Left Interactive Panel: Element Explorer */}
-              <div className="lg:col-span-7 bg-[#040a17]/70 border border-white/5 rounded-2xl p-5 md:p-6 flex flex-col justify-between relative overflow-hidden">
-                <div className="absolute inset-0 immersive-grid opacity-[0.03] pointer-events-none"></div>
-
-                <div>
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <span className="text-[9px] font-mono text-pink-400 font-black uppercase tracking-widest block">HERRAMIENTA DIGITAL ACTIVA</span>
-                      <h3 className="text-base font-mono font-black text-white uppercase tracking-tight flex items-center gap-1.5">
-                        <Compass className="w-4 h-4 text-pink-500" />
-                        Módulo de Clasificación en BIM
-                      </h3>
-                    </div>
-                    <span className="text-[9.5px] font-mono px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/20 text-pink-400 font-bold">
-                      Multiestándar Integrado
-                    </span>
-                  </div>
-
-                  {/* Selector de Elementos */}
-                  <div className="space-y-2 mb-4">
-                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Seleccione un Componente Estructural:</label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      <button
-                        id="btn-class-wall"
-                        onClick={() => setSelectedElement('wall')}
-                        className={`px-3 py-2 rounded-lg text-[10.5px] font-sans font-bold transition-all border text-center cursor-pointer ${selectedElement === 'wall' ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_12px_rgba(236,72,153,0.1)]' : 'bg-black/30 border-white/5 text-slate-400 hover:bg-white/5'}`}
-                      >
-                        🧱 Muro Exterior
-                      </button>
-                      <button
-                        id="btn-class-footing"
-                        onClick={() => setSelectedElement('footing')}
-                        className={`px-3 py-2 rounded-lg text-[10.5px] font-sans font-bold transition-all border text-center cursor-pointer ${selectedElement === 'footing' ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_12px_rgba(236,72,153,0.1)]' : 'bg-black/30 border-white/5 text-slate-400 hover:bg-white/5'}`}
-                      >
-                        📐 Zapata Fundación
-                      </button>
-                      <button
-                        id="btn-class-door"
-                        onClick={() => setSelectedElement('door')}
-                        className={`px-3 py-2 rounded-lg text-[10.5px] font-sans font-bold transition-all border text-center cursor-pointer ${selectedElement === 'door' ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_12px_rgba(236,72,153,0.1)]' : 'bg-black/30 border-white/5 text-slate-400 hover:bg-white/5'}`}
-                      >
-                        🚪 Puerta Cortafuego
-                      </button>
-                      <button
-                        id="btn-class-light"
-                        onClick={() => setSelectedElement('light')}
-                        className={`px-3 py-2 rounded-lg text-[10.5px] font-sans font-bold transition-all border text-center cursor-pointer ${selectedElement === 'light' ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_12px_rgba(236,72,153,0.1)]' : 'bg-black/30 border-white/5 text-slate-400 hover:bg-white/5'}`}
-                      >
-                        💡 Luminaria LED
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Selector de Estándar (Including Uniformat!) */}
-                  <div className="flex flex-wrap gap-1.5 bg-black/45 p-1 rounded-xl border border-white/5 mb-4">
-                    <button
-                      id="btn-std-omniclass"
-                      onClick={() => setSelectedStandard('omniclass')}
-                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer min-w-[100px] ${selectedStandard === 'omniclass' ? 'bg-pink-500/15 border border-pink-500/30 text-white' : 'text-slate-500 hover:text-slate-350'}`}
-                    >
-                      OmniClass (América)
-                    </button>
-                    <button
-                      id="btn-std-uniclass"
-                      onClick={() => setSelectedStandard('uniclass')}
-                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer min-w-[100px] ${selectedStandard === 'uniclass' ? 'bg-[#38bdf8]/15 border border-[#38bdf8]/30 text-white' : 'text-slate-500 hover:text-slate-350'}`}
-                    >
-                      UniClass (Reino Unido)
-                    </button>
-                    <button
-                      id="btn-std-uniformat"
-                      onClick={() => setSelectedStandard('uniformat')}
-                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer min-w-[100px] ${selectedStandard === 'uniformat' ? 'bg-emerald-500/15 border border-emerald-500/30 text-white' : 'text-slate-500 hover:text-slate-350'}`}
-                    >
-                      UniFormat (Esquemático)
-                    </button>
-                    <button
-                      id="btn-std-masterformat"
-                      onClick={() => setSelectedStandard('masterformat')}
-                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer min-w-[100px] ${selectedStandard === 'masterformat' ? 'bg-amber-500/15 border border-amber-500/30 text-white' : 'text-slate-500 hover:text-slate-350'}`}
-                    >
-                      MasterFormat (Costos)
-                    </button>
-                  </div>
-
-                  {/* Dynamic code visualization section */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`${selectedElement}-${selectedStandard}`}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.15 }}
-                      className="bg-black/50 p-4 border border-white/5 rounded-xl space-y-3 text-left"
-                    >
-                      {/* Large Code Output Badge */}
-                      <div className="flex justify-between items-center border-b border-white/5 pb-2.5">
-                        <div>
-                          <span className="text-[8px] font-mono text-zinc-500 uppercase block">CÓDIGO DE CLASIFICACIÓN</span>
-                          <span className="text-sm font-sans font-black text-white">{elementsData[selectedElement].name}</span>
-                        </div>
-                        <div className="text-right">
-                          <span className={`text-xs px-3 py-1.5 rounded font-mono font-extrabold tracking-wide border ${
-                            selectedStandard === 'omniclass' ? 'bg-pink-500/10 border-pink-500/25 text-pink-400' :
-                            selectedStandard === 'uniclass' ? 'bg-sky-500/10 border-sky-500/25 text-sky-400' :
-                            selectedStandard === 'uniformat' ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' :
-                            'bg-amber-500/10 border-amber-500/25 text-amber-400'
-                          }`}>
-                            {selectedStandard === 'omniclass' && elementsData[selectedElement].omniClassCode}
-                            {selectedStandard === 'uniclass' && elementsData[selectedElement].uniClassCode}
-                            {selectedStandard === 'masterformat' && elementsData[selectedElement].masterFormatCode}
-                            {selectedStandard === 'uniformat' && elementsData[selectedElement].uniFormatCode}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Hierarchy tree explorer */}
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">Desglose Jerárquico del Código:</span>
-                        <div className="space-y-1.5 pl-1.5 border-l border-zinc-700/60 font-sans text-xs">
-                          {(
-                            selectedStandard === 'omniclass' ? elementsData[selectedElement].omniClassPath : 
-                            selectedStandard === 'uniclass' ? elementsData[selectedElement].uniClassPath : 
-                            selectedStandard === 'uniformat' ? elementsData[selectedElement].uniFormatPath :
-                            elementsData[selectedElement].masterFormatPath
-                          ).map((pathNode, idx, arr) => (
-                            <div key={idx} className="flex flex-wrap items-center gap-1.5 text-slate-300">
-                              <span className="text-[9px] font-mono text-zinc-500 shrink-0">Nivel {idx + 1}:</span>
-                              <span className={`font-semibold ${
-                                idx === arr.length - 1 ? (
-                                  selectedStandard === 'omniclass' ? 'text-pink-400' :
-                                  selectedStandard === 'uniclass' ? 'text-sky-400' :
-                                  selectedStandard === 'uniformat' ? 'text-emerald-400' :
-                                  'text-amber-400'
-                                ) : "text-slate-300"
-                              }`}>
-                                {pathNode}
-                              </span>
-                              {idx !== arr.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-650 shrink-0" />}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Real Coordination Value */}
-                      <div className="bg-white/[0.02] border border-white/5 p-3 rounded-lg text-slate-450 text-[11px] leading-relaxed font-sans">
-                        💡 <strong className="text-slate-300">Aplicación práctica en obra:</strong> {elementsData[selectedElement].bimApplication}
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-[10px] text-zinc-500 font-mono">
-                  <span>Intercambio estandarizado IFC ({selectedStandard.toUpperCase()})</span>
-                  <span className="text-pink-400">OpenBIM Compliant</span>
-                </div>
-              </div>
-
-              {/* Right Panel: Characteristics List */}
-              <div className="lg:col-span-12 xl:col-span-5 flex flex-col justify-between gap-4">
+              {/* Left Panel: Characteristics List */}
+              <div className="lg:col-span-5 flex flex-col justify-between gap-4">
                 <div className="space-y-3 text-left">
                   <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest font-black block">
-                    CARACTERÍSTICAS CLAVE DEL SISTEMA
+                    ATRIBUTOS CLAVE DEL SISTEMA (ISO 19650)
                   </span>
 
-                  {/* Characteristics Grid list */}
+                  {/* Characteristics Clickable Buttons */}
                   <div className="space-y-2">
                     {characteristics.map((char) => {
                       const isSelected = activeChar === char.id;
@@ -552,7 +248,11 @@ export const ClasificacionBimSlide = () => {
                           key={char.id}
                           id={`btn-char-${char.id}`}
                           onClick={() => setActiveChar(char.id)}
-                          className={`w-full p-4 rounded-xl border text-left transition-all duration-300 cursor-pointer ${isSelected ? 'border-pink-500/30 bg-gradient-to-r from-pink-500/10 to-transparent shadow-[0_0_15px_rgba(236,72,153,0.05)]' : 'border-white/5 hover:bg-white/5'}`}
+                          className={`w-full p-4 rounded-xl border text-left transition-all duration-300 cursor-pointer ${
+                            isSelected 
+                              ? 'border-pink-500/35 bg-pink-500/[0.04] shadow-[0_0_15px_rgba(236,72,153,0.05)]' 
+                              : 'border-white/5 bg-black/25 hover:bg-white/5'
+                          }`}
                         >
                           <div className="flex justify-between items-center mb-1">
                             <div className="flex items-center gap-2">
@@ -564,20 +264,6 @@ export const ClasificacionBimSlide = () => {
                             </span>
                           </div>
                           <p className="text-[11px] text-slate-400 line-clamp-1">{char.desc}</p>
-                          
-                          {/* Collapsible detail on active */}
-                          <AnimatePresence initial={false}>
-                            {isSelected && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                                animate={{ height: "auto", opacity: 1, marginTop: 8 }}
-                                exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                                className="overflow-hidden border-t border-white/5 pt-2 text-[10.5px] leading-relaxed text-slate-350 space-y-1 font-sans"
-                              >
-                                <div><strong className="text-pink-400 font-mono font-semibold">{char.subtitle}:</strong> {char.detail}</div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
                         </button>
                       );
                     })}
@@ -586,6 +272,109 @@ export const ClasificacionBimSlide = () => {
 
                 <div className="p-3 bg-black/45 rounded-xl border border-white/5 leading-relaxed text-[10.5px] text-slate-400 font-sans text-left">
                   📌 <strong>Anclaje con ISO 19650-2:</strong> Asegura que los datos producidos sean coherentes, geolocalizables y comprensibles por todo el personal sin ambigüedades.
+                </div>
+              </div>
+
+              {/* Right Panel: Immersive Deep-Dive Card */}
+              <div className="lg:col-span-7 bg-[#040a17]/70 border border-white/5 rounded-2xl p-5 md:p-6 flex flex-col justify-between relative overflow-hidden text-left">
+                <div className="absolute inset-0 immersive-grid opacity-[0.03] pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500/5 blur-3xl rounded-full pointer-events-none"></div>
+
+                {characteristics.filter(c => c.id === activeChar).map((char) => (
+                  <div key={char.id} className="space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="text-[9px] font-mono text-pink-400 font-black uppercase tracking-widest block">
+                          DETALLE DEL ATRIBUTO BIM
+                        </span>
+                        <h3 className="text-lg font-mono font-black text-white uppercase tracking-tight">
+                          {char.title} – {char.subtitle}
+                        </h3>
+                      </div>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/20 text-pink-400 font-bold">
+                        {char.badge}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                        {char.desc}
+                      </p>
+                      
+                      <div className="p-3 bg-white/[0.02] border border-white/5 rounded-lg text-xs leading-relaxed text-slate-350 font-sans">
+                        <strong className="text-pink-400 font-semibold">{char.subtitle}: </strong>
+                        {char.detail}
+                      </div>
+                    </div>
+
+                    {/* Highly aesthetic live data schema simulator based on activeChar */}
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider block">
+                        Representación en la Estructura de Datos (IFC / Revit):
+                      </span>
+                      <div className="bg-black/75 p-4 rounded-xl border border-white/5 font-mono text-[10px] leading-relaxed overflow-x-auto text-pink-300">
+                        {char.id === 'estructurado' && (
+                          <div className="space-y-1">
+                            <div className="text-zinc-500">// IFCClassificationReference (Jerarquía de Árbol)</div>
+                            <div>IFCClassificationReference:</div>
+                            <div className="pl-4 text-slate-400">├── Name: <span className="text-pink-400">"OmniClass Tabla 21"</span></div>
+                            <div className="pl-4 text-slate-400">├── Location: <span className="text-pink-400">"http://www.omniclass.org"</span></div>
+                            <div className="pl-4 text-slate-400">└── Referencia_Padre:</div>
+                            <div className="pl-8 text-sky-400">└── IFCClassification (Nivel Superior)</div>
+                            <div className="pl-12 text-slate-500">├── Name: "Elements"</div>
+                            <div className="pl-12 text-slate-500">└── Edition: "2.1"</div>
+                          </div>
+                        )}
+                        {char.id === 'consistente' && (
+                          <div className="space-y-1">
+                            <div className="text-zinc-500">// Parámetros Compartidos Uniformes (GUID Único)</div>
+                            <div>SharedParameter (GUID: <span className="text-zinc-450 font-sans font-bold">8fa7b21a-32fb-44d5-8962-e67c82300b9c</span>):</div>
+                            <div className="pl-4 text-slate-400">├── Nombre_Parámetro: <span className="text-pink-400">"Classification_Code"</span></div>
+                            <div className="pl-4 text-slate-400">├── Tipo_De_Datos: <span className="text-sky-400">"Text"</span></div>
+                            <div className="pl-4 text-slate-400">├── Disciplina: "Common"</div>
+                            <div className="pl-4 text-slate-400">└── Valor_Asignado: <span className="text-emerald-400 font-bold">"21-02 10 20" (Muro Exterior)</span></div>
+                          </div>
+                        )}
+                        {char.id === 'escalable' && (
+                          <div className="space-y-1">
+                            <div className="text-zinc-550">// Soporte de Nuevos Materiales Ecológicos</div>
+                            <div>Extensión_De_Nodos_BIM:</div>
+                            <div className="pl-4 text-slate-400">├── Clase_Base: <span className="text-zinc-500 font-semibold">"B2015 - Revestimiento Fachada"</span></div>
+                            <div className="pl-4 text-slate-400">└── Extensión_Subclase:</div>
+                            <div className="pl-8 text-pink-400">└── "B2015.35 - Pintura Fotovoltaica" <span className="text-emerald-400 font-extrabold text-[8.5px] uppercase bg-emerald-500/10 px-1 py-0.5 rounded text-right tracking-widest">// NUEVA</span></div>
+                            <div className="pl-12 text-slate-500">└── Propiedad: "Tasa_Generación_Solar = 45 W/m²"</div>
+                          </div>
+                        )}
+                        {char.id === 'interoperable' && (
+                          <div className="space-y-1">
+                            <div className="text-zinc-500">// Mapeo IFC Neutro de Intercambio OpenBIM</div>
+                            <div>Archivo_Intercambio_IFC4:</div>
+                            <div className="text-slate-350">#4281 = IFCCLASSIFICATIONREFERENCE(</div>
+                            <div className="pl-6 text-slate-400">'https://standards.buildingsmart.org',</div>
+                            <div className="pl-6 text-emerald-400">'Ss_25_10_30', <span className="text-zinc-550">// Código de Sistema</span></div>
+                            <div className="pl-6 text-pink-400">'External wall systems',</div>
+                            <div className="pl-6 text-slate-400">#105 <span className="text-zinc-550">// Relación de Referencia</span></div>
+                            <div className="text-slate-350">);</div>
+                          </div>
+                        )}
+                        {char.id === 'trazable' && (
+                          <div className="space-y-1">
+                            <div className="text-zinc-500">// Registro del Ciclo de Vida Completo</div>
+                            <div>Registro_Trazabilidad:</div>
+                            <div className="pl-4 text-slate-450">├── Fase 1 (Diseño): <span className="text-slate-300">"Revit ID 10842"</span></div>
+                            <div className="pl-4 text-slate-450">├── Fase 2 (Costos): <span className="text-slate-300">"Partida MasterFormat Division 03"</span></div>
+                            <div className="pl-4 text-slate-450">├── Fase 3 (Obra): <span className="text-slate-300">"Código QR en Terreno"</span></div>
+                            <div className="pl-4 text-slate-450">└── Fase 4 (Operaciones): <span className="text-emerald-400">"Asociado a Plan de Mantención Anual"</span></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-[10px] text-zinc-550 font-mono">
+                  <span>Atributo de Datos Activo ({activeChar.toUpperCase()})</span>
+                  <span className="text-pink-400 font-bold uppercase tracking-widest">Interoperabilidad Garantizada</span>
                 </div>
               </div>
 

@@ -25,12 +25,178 @@ interface SystemDetail {
   quickQuestion: string;
 }
 
+interface ElementInfo {
+  name: string;
+  category: string;
+  emoji: string;
+  omniClassCode: string;
+  omniClassPath: string[];
+  omniClassExplanation: string;
+  uniClassCode: string;
+  uniClassPath: string[];
+  uniClassExplanation: string;
+  masterFormatCode: string;
+  masterFormatPath: string[];
+  masterFormatExplanation: string;
+  uniFormatCode: string;
+  uniFormatPath: string[];
+  uniFormatExplanation: string;
+  studentFocus: string;
+}
+
+const elementsData: Record<'wall' | 'footing' | 'door' | 'light', ElementInfo> = {
+  wall: {
+    name: "Muro Exterior de Hormigón Armado",
+    category: "Sistemas de Envolvente y Muros de Carga",
+    emoji: "🧱",
+    omniClassCode: "21-02 10 20",
+    omniClassPath: [
+      "Tabla 21: Elements (Elementos de Construcción)",
+      "21-02: Superstructure & Shell",
+      "21-02 10: Exterior Vertical Enclosures",
+      "21-02 10 20: Exterior Walls"
+    ],
+    omniClassExplanation: "Sitúa el muro como una unidad tridimensional de la estructura del edificio para análisis espacial.",
+    uniClassCode: "Ss_25_10_30",
+    uniClassPath: [
+      "Ss: Systems (Sistemas Coherentes)",
+      "Ss_25: Wall and cladding systems",
+      "Ss_25_10: Wall systems",
+      "Ss_25_10_30: External wall systems"
+    ],
+    uniClassExplanation: "Inserta la fachada en un framework unificado británico que apoya flujos continuos as-built.",
+    masterFormatCode: "03 30 00",
+    masterFormatPath: [
+      "División 03: Concrete (Hormigón / Concreto)",
+      "03 30 00: Cast-in-Place Concrete",
+      "03 31 00: Structural Concrete"
+    ],
+    masterFormatExplanation: "Especifica hormigón vaciado in situ, ideal para compras de agregados de obra, mezcladoras, y subcontratistas.",
+    uniFormatCode: "B2010",
+    uniFormatPath: [
+      "Categoría B: Shell",
+      "B20: Exterior Enclosure",
+      "B2010: Exterior Walls"
+    ],
+    uniFormatExplanation: "Asigna el rol del muro como un subsistema contenedor de calor de la fachada antes de comprar especificaciones.",
+    studentFocus: "La clasificación automatiza tus cómputos métricos. En lugar de sumar volúmenes seleccionando muros uno por uno en la pantalla, programas como Navisworks o Presto leen el código '03 30 00' o 'B2010' y calculan de inmediato los metros cúbicos exactos, actualizándose solos si cambias el diseño."
+  },
+  footing: {
+    name: "Zapata de Fundación Aislada",
+    category: "Sistemas de Cimentación de Soporte",
+    emoji: "📐",
+    omniClassCode: "21-01 10 10",
+    omniClassPath: [
+      "Tabla 21: Elements",
+      "21-01: Substructure (Subestructura)",
+      "21-01 10: Foundations",
+      "21-01 10 10: Standard Foundations"
+    ],
+    omniClassExplanation: "Organiza el soporte de hormigón en la tabla relacional de elementos estructurales coordinados.",
+    uniClassCode: "Ef_15_10",
+    uniClassPath: [
+      "Ef: Elements (Elementos Físicos)",
+      "Ef_15: Ground and foundation elements",
+      "Ef_15_10: Foundations"
+    ],
+    uniClassExplanation: "Nombra las bases de fundación de forma neutra y directa para cubicaciones BIM internacionales.",
+    masterFormatCode: "03 11 13",
+    masterFormatPath: [
+      "División 03: Concrete (Hormigón)",
+      "03 11 00: Concrete Forming",
+      "03 11 13: Structural Cast-in-Place Concrete Forming"
+    ],
+    masterFormatExplanation: "Especifica los moldes y encofrados temporales de madera o acero necesarios para vaciar la zapata en terreno.",
+    uniFormatCode: "A1010",
+    uniFormatPath: [
+      "Categoría A: Substructure",
+      "A10: Foundations",
+      "A1010: Standard Foundations"
+    ],
+    uniFormatExplanation: "Agrupa la zapata bajo el subsistema de cimentación fija que distribuye el peso de la obra al suelo firme.",
+    studentFocus: "Para el control de calidad en obra: Puedes crear reglas lógicas automáticas en segundos (ej. 'Pintar de rojo todas las zapatas que no tengan asignado un código de la División 03'). Esto te permite auditar la calidad del modelo BIM antes de entregarlo al cliente."
+  },
+  door: {
+    name: "Puerta Metálica Cortafuego (RF-60)",
+    category: "Carpintería y Aperturas Técnicas",
+    emoji: "🚪",
+    omniClassCode: "23-30 10 10",
+    omniClassPath: [
+      "Tabla 23: Products",
+      "23-30: Openings, Passages & Protective Devices",
+      "23-30 10: Openings / Doors",
+      "23-30 10 10: Wood/Metal Door Products"
+    ],
+    omniClassExplanation: "Permite clasificar el producto físico cruzándolo con su resistencia al fuego con parámetros relacionales.",
+    uniClassCode: "Pr_30_59_24",
+    uniClassPath: [
+      "Pr: Products (Productos Terminados)",
+      "Pr_30: Structure and enclosure products",
+      "Pr_30_59: Door and window products",
+      "Pr_30_59_24: Door assemblies"
+    ],
+    uniClassExplanation: "Define la puerta como un lote de producto ensamblado integral que viene de fábrica.",
+    masterFormatCode: "08 11 13",
+    masterFormatPath: [
+      "División 08: Openings (Puertas y Ventanas)",
+      "08 11 00: Metal Doors and Frames",
+      "08 11 13: Hollow Metal Doors"
+    ],
+    masterFormatExplanation: "Especifica las directrices técnicas del material lámina de acero, perfiles y herrajes para la adquisición de compras.",
+    uniFormatCode: "B2030",
+    uniFormatPath: [
+      "Categoría B: Shell",
+      "B20: Exterior Enclosure",
+      "B2030: Exterior Doors"
+    ],
+    uniFormatExplanation: "Sienta las bases funcionales de la puerta como un escape de emergencia de fachada exterior del edificio.",
+    studentFocus: "No dependas de ponerle descripciones en texto libre como 'puertas contra incendios grandes'. Si utilizas el código estandarizado (como 'B2030' o '08 11 13'), el inspector de seguridad de bomberos puede auditar la resistencia al fuego de miles de puertas en el modelo 3D en milisegundos usando reglas de consulta digital."
+  },
+  light: {
+    name: "Luminaria Embutida LED",
+    category: "Equipos Eléctricos y Sistemas",
+    emoji: "💡",
+    omniClassCode: "23-85 10 10",
+    omniClassPath: [
+      "Tabla 23: Products",
+      "23-85: Electrical & Lighting Products",
+      "23-85 10: Luminaires",
+      "23-85 10 10: Indoor Luminaires"
+    ],
+    omniClassExplanation: "Define el artefacto de luz como un producto de suministro eléctrico del proyecto.",
+    uniClassCode: "Pr_70_70_47",
+    uniClassPath: [
+      "Pr: Products (Mecánica y Electricidad)",
+      "Pr_70: Services products",
+      "Pr_70_70: Electrical and lighting products",
+      "Pr_70_70_47: Luminaires"
+    ],
+    uniClassExplanation: "Registra la luminaria como activo con código duradero útil para Facility Management.",
+    masterFormatCode: "26 51 19",
+    masterFormatPath: [
+      "División 26: Electrical (Sistemas Eléctricos)",
+      "26 51 00: Interior Lighting",
+      "26 51 19: LED Interior Lighting"
+    ],
+    masterFormatExplanation: "Se vincula directamente a las cubicaciones de tendido, canalizaciones, interruptores, y pruebas de luminotecnia LED.",
+    uniFormatCode: "D5020",
+    uniFormatPath: [
+      "Categoría D: Services (Instalaciones)",
+      "D50: Electrical",
+      "D5020: Lighting and Branch Wiring"
+    ],
+    uniFormatExplanation: "Modela la función de branch de circuito del sistema de alumbrado completo de la planta.",
+    studentFocus: "En la fase de operaciones (Facility Management), el cliente final recibe el modelo as-built. Incorporar códigos como '26 51 19' ayuda al equipo de mantenimiento a geolocalizar la ampolleta quemada e identificar al proveedor exacto en la base de datos de activos de forma automática sin buscar carpetas de papel."
+  }
+};
+
 export const ComparativaClasificacionSlide = () => {
   const [selectedSystem, setSelectedSystem] = useState<'uniclass' | 'uniformat' | 'omniclass' | 'masterformat'>('uniclass');
   const [hoveredCell, setHoveredCell] = useState<{ row: number; col: number } | null>(null);
 
-  // Door classification comparison state
-  const [activeDoorClass, setActiveDoorClass] = useState<'uniformat' | 'masterformat' | 'omniclass' | 'uniclass'>('uniclass');
+  // States for the integrated Case Study Element Sandbox
+  const [selectedElement, setSelectedElement] = useState<'wall' | 'footing' | 'door' | 'light'>('door');
+  const [selectedStandard, setSelectedStandard] = useState<'uniclass' | 'uniformat' | 'omniclass' | 'masterformat'>('uniclass');
 
   const systems: Record<'uniclass' | 'uniformat' | 'omniclass' | 'masterformat', SystemDetail> = {
     uniclass: {
@@ -398,149 +564,246 @@ export const ComparativaClasificacionSlide = () => {
             <span className="text-zinc-400 capitalize">Propósito: {selectedSystem}</span>
           </div>
         </div>
-
       </div>
 
-      {/* Interactive Section 3: The Door Sandbox "Un mismo objeto, múltiples códigos" */}
+      {/* Interactive Section 3: BIM Element & Classification Explorer (Caso de Estudio Integrado) */}
       <div className="bg-[#040a17]/60 border border-white/5 rounded-2xl p-5 md:p-6 text-left relative overflow-hidden">
         <div className="absolute top-0 right-0 p-6 opacity-5 font-sans text-9xl font-black select-none pointer-events-none">
-          🚪
+          ⚙️
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-white/5 pb-3.5 mb-4">
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-3 border-b border-white/5 pb-3.5 mb-4">
           <div>
-            <span className="text-[9px] font-mono text-[#38bdf8] font-black uppercase tracking-widest block">CASO DE ESTUDIO VISUAL PRÁCTICO</span>
-            <h4 className="text-sm font-sans font-black text-white uppercase">Múltiple Codificación en un Objeto BIM Real</h4>
+            <span className="text-[9px] font-mono text-[#38bdf8] font-black uppercase tracking-widest block">CASO DE ESTUDIO INTEGRADO Y MULTIELEMENTO</span>
+            <h4 className="text-sm font-sans font-black text-white uppercase">Explorador de Clasificaciones y Objetos Reales</h4>
             <p className="text-[10.5px] text-slate-450 font-sans leading-normal">
-              Entiende de forma gráfica cómo un mismo componente (Puerta Metálica Cortafuego) tiene identidades distintas según el estándar.
+              Selecciona un componente estructural y alterna el estándar para comprender cómo su identidad digital cambia según la fase de construcción y el propósito de modelado.
             </p>
           </div>
           
-          {/* Selector of door mappings */}
-          <div className="flex p-0.5 bg-black/65 border border-white/5 rounded-lg shrink-0 overflow-hidden font-mono shadow-md text-[9.5px]">
+          {/* Selector of Active Element */}
+          <div className="flex flex-wrap p-0.5 bg-black/65 border border-white/5 rounded-lg shrink-0 font-mono shadow-md text-[9.5px]">
             <button
-              onClick={() => setActiveDoorClass('uniclass')}
-              className={`px-2 py-1 rounded transition-all cursor-pointer font-extrabold ${activeDoorClass === 'uniclass' ? 'bg-sky-500/20 text-sky-400' : 'text-slate-500 hover:text-slate-300'}`}
+              onClick={() => setSelectedElement('door')}
+              className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-extrabold ${selectedElement === 'door' ? 'bg-pink-500/15 text-pink-400' : 'text-slate-505 hover:text-slate-300'}`}
             >
-              UniClass
+              🚪 Puerta (RF-60)
             </button>
             <button
-              onClick={() => setActiveDoorClass('uniformat')}
-              className={`px-2 py-1 rounded transition-all cursor-pointer font-extrabold ${activeDoorClass === 'uniformat' ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`}
+              onClick={() => setSelectedElement('wall')}
+              className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-extrabold ${selectedElement === 'wall' ? 'bg-pink-500/15 text-pink-400' : 'text-slate-505 hover:text-slate-300'}`}
             >
-              UniFormat
+              🧱 Muro Exterior
             </button>
             <button
-              onClick={() => setActiveDoorClass('omniclass')}
-              className={`px-2 py-1 rounded transition-all cursor-pointer font-extrabold ${activeDoorClass === 'omniclass' ? 'bg-pink-500/20 text-pink-400' : 'text-slate-500 hover:text-slate-300'}`}
+              onClick={() => setSelectedElement('footing')}
+              className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-extrabold ${selectedElement === 'footing' ? 'bg-pink-500/15 text-pink-400' : 'text-slate-505 hover:text-slate-300'}`}
             >
-              OmniClass
+              📐 Zapata Cimiento
             </button>
             <button
-              onClick={() => setActiveDoorClass('masterformat')}
-              className={`px-2 py-1 rounded transition-all cursor-pointer font-extrabold ${activeDoorClass === 'masterformat' ? 'bg-amber-500/20 text-amber-400' : 'text-slate-500 hover:text-slate-300'}`}
+              onClick={() => setSelectedElement('light')}
+              className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-extrabold ${selectedElement === 'light' ? 'bg-pink-500/15 text-pink-400' : 'text-slate-505 hover:text-slate-300'}`}
             >
-              MasterFormat
+              💡 Luminaria LED
             </button>
           </div>
         </div>
 
-        {/* Dynamic Canvas Container for the door study case */}
+        {/* Dynamic Canvas Container for the unified study case */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
           
-          {/* Visual Door Section */}
-          <div className="md:col-span-5 bg-black/50 border border-white/5 rounded-xl p-4 flex flex-col justify-between align-center items-center text-center relative">
-            <div className="my-auto py-5 relative">
-              {/* Drawing a simple schematic Door using Tailwind & vectors */}
-              <div className="relative w-24 h-40 border-4 border-slate-700 bg-zinc-900 rounded-md flex items-center justify-center p-1.5 shadow-2xl transition-all hover:scale-103 duration-300">
-                <div className="w-full h-full bg-slate-800 border-2 border-slate-600 rounded flex flex-col justify-between p-3 relative">
-                  {/* Fire resistance text */}
-                  <div className="w-6 h-1 w-full bg-red-600/35 border border-red-500/50 rounded text-[6px] font-mono text-red-200 flex items-center justify-center font-bold">
-                    FIRE RESIST (60m)
-                  </div>
-                  {/* Door knob */}
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-4 bg-yellow-500/80 rounded-sm"></div>
-                  {/* Glass pane inside */}
-                  <div className="w-4 h-12 bg-sky-400/20 border border-sky-400/40 rounded mx-auto"></div>
-                </div>
-              </div>
+          {/* Left Column: Visual Asset Display */}
+          <div className="md:col-span-5 bg-black/50 border border-white/5 rounded-xl p-5 flex flex-col justify-between align-center items-center text-center relative">
+            <div className="my-auto py-4 flex items-center justify-center select-none">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedElement}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {/* Drawing door */}
+                  {selectedElement === 'door' && (
+                    <div className="relative w-28 h-40 border-4 border-slate-705 bg-zinc-900 rounded flex items-center justify-center p-1.5 shadow-2xl">
+                      <div className="w-full h-full bg-slate-800 border-2 border-slate-650 rounded flex flex-col justify-between p-3 relative">
+                        <div className="w-full bg-red-650/40 border border-red-500/50 rounded text-[5px] font-mono text-red-200 py-0.5 font-bold">
+                          FIRE RESIST (RF-60)
+                        </div>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-4 bg-yellow-501/70 rounded-xs"></div>
+                        <div className="w-4 h-12 bg-sky-400/10 border border-sky-400/3 overlay rounded mx-auto"></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Drawing wall section */}
+                  {selectedElement === 'wall' && (
+                    <div className="relative w-36 h-36 flex border border-white/10 rounded overflow-hidden bg-zinc-950 shadow-2xl">
+                      <div className="w-1/3 bg-slate-700/50 flex items-center justify-center border-r border-dashed border-white/10 px-1">
+                        <span className="text-[7.5px] text-zinc-400 uppercase font-mono font-black [writing-mode:vertical-lr] rotate-180">Acabado Revestido</span>
+                      </div>
+                      <div className="w-2/3 bg-slate-600 flex flex-col justify-between p-3.5 relative">
+                        <div className="absolute inset-0 bg-[linear-gradient(45deg,#475569_25%,transparent_25%,transparent_50%,#475569_50%,#475569_75%,transparent_75%,transparent)] bg-[size:10px_10px] opacity-15"></div>
+                        <div className="text-[9px] text-[#38bdf8] font-mono font-black tracking-wide z-10">CORE STRUCTURAL</div>
+                        <div className="text-[9px] text-zinc-350 font-mono font-semibold z-10">CONCRETO H30</div>
+                        <div className="text-[8px] text-zinc-500 font-mono z-10 text-right">LOD 300</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Drawing footing */}
+                  {selectedElement === 'footing' && (
+                    <div className="relative w-36 h-36 flex flex-col items-center justify-end">
+                      <div className="w-12 h-16 bg-slate-600 border-x border-t border-white/10 relative">
+                        <div className="absolute inset-x-3.5 top-0 bottom-0 border-x border-red-500/40"></div>
+                      </div>
+                      <div className="w-32 h-14 bg-slate-500 border border-white/10 relative rounded-sm flex flex-col justify-center items-center shadow-2xl">
+                        <div className="absolute inset-x-2 bottom-3.5 h-0.5 bg-red-650/40"></div>
+                        <div className="absolute inset-x-2 bottom-2 h-0.5 bg-red-650/40"></div>
+                        <span className="text-[7.5px] font-mono font-bold text-zinc-300">ZAPATA AISLADA</span>
+                        <span className="text-[6.5px] font-mono text-zinc-450 uppercase">Anclaje con Acero</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Drawing light */}
+                  {selectedElement === 'light' && (
+                    <div className="relative w-36 h-36 flex flex-col items-center justify-start">
+                      <div className="w-full h-3 bg-zinc-700/80 border-b border-white/5"></div>
+                      <div className="w-16 h-3.5 bg-zinc-900 border-x border-b border-zinc-500/40 rounded-b flex items-center justify-center relative shadow-lg">
+                        <div className="w-12 h-1 bg-amber-250 animate-pulse rounded"></div>
+                      </div>
+                      <div className="w-0 h-0 border-l-[35px] border-l-transparent border-r-[35px] border-r-transparent border-t-[80px] border-t-amber-400/[0.06] mt-0.5 blur-[1px]"></div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <div className="w-full text-center border-t border-white/5 pt-2">
-              <span className="text-[10px] font-sans font-black tracking-wide text-white block">Puerta Metálica Cortafuego</span>
-              <span className="text-[8px] font-mono text-zinc-550 block">Ubicada en Módulo de Salida de Emergencia Exterior</span>
+              <span className="text-xs font-sans font-black tracking-wide text-white block">
+                {elementsData[selectedElement].name}
+              </span>
+              <span className="text-[9px] font-mono text-pink-400 uppercase tracking-widest block mt-0.5">
+                {elementsData[selectedElement].category}
+              </span>
             </div>
           </div>
 
-          {/* Text/Definition mapping explanation container */}
+          {/* Right Column: Code and Standard Detail Selector */}
           <div className="md:col-span-7 flex flex-col justify-between bg-black/30 p-4 border border-zinc-900 rounded-xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeDoorClass}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.15 }}
-                className="space-y-3"
-              >
-                {/* Specific details */}
-                {activeDoorClass === 'uniclass' && (
-                  <>
-                    <span className="text-[9px] font-mono text-sky-400 font-extrabold uppercase tracking-widest pl-1 border-l-2 border-sky-500 block">UNICLASS 2015 PRODUCTO</span>
-                    <h5 className="text-[14px] font-sans font-black text-white">Código Estándar: Pr_30_59_24_25</h5>
-                    <p className="text-[11.5px] leading-relaxed text-slate-300 font-sans">
-                      Se enfoca en la puerta como un <strong>producto fabricado de forma específica</strong>. Indica que cumple con las propiedades de paso, estanqueidad y resguardo con valor numérico en el ecosistema de diseño BIM nativo del Reino Unido.
-                    </p>
-                    <div className="bg-sky-500/[0.03] p-2.5 rounded border border-sky-500/10 text-[10px] font-mono text-sky-305">
-                      Ruta jerárquica: Pr (Productos) → Pr_30 (Productos Estructurales) → Pr_30_59 (Puertas, Ventanas) → Pr_30_59_24_25 (Producto Puerta Cortafuego)
-                    </div>
-                  </>
-                )}
+            
+            <div className="space-y-4">
+              {/* Internal standard switcher tabs */}
+              <div className="flex border-b border-white/5 pb-2.5 flex-wrap gap-1.5 font-mono text-[9px]">
+                <button
+                  onClick={() => setSelectedStandard('uniclass')}
+                  className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-black uppercase ${selectedStandard === 'uniclass' ? 'bg-sky-505/15 border border-sky-505/25 text-sky-400' : 'text-slate-500 hover:text-slate-350'}`}
+                >
+                  UniClass (UK / Entorno)
+                </button>
+                <button
+                  onClick={() => setSelectedStandard('uniformat')}
+                  className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-black uppercase ${selectedStandard === 'uniformat' ? 'bg-emerald-500/15 border border-emerald-500/25 text-emerald-400' : 'text-slate-500 hover:text-slate-350'}`}
+                >
+                  UniFormat (Fase Diseño)
+                </button>
+                <button
+                  onClick={() => setSelectedStandard('omniclass')}
+                  className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-black uppercase ${selectedStandard === 'omniclass' ? 'bg-pink-500/15 border border-pink-500/25 text-pink-405' : 'text-slate-500 hover:text-slate-350'}`}
+                >
+                  OmniClass (BBDD Estructural)
+                </button>
+                <button
+                  onClick={() => setSelectedStandard('masterformat')}
+                  className={`px-2.5 py-1.5 rounded transition-all cursor-pointer font-black uppercase ${selectedStandard === 'masterformat' ? 'bg-amber-505/15 border border-amber-505/25 text-amber-500' : 'text-slate-505 hover:text-slate-350'}`}
+                >
+                  MasterFormat (Costos)
+                </button>
+              </div>
 
-                {activeDoorClass === 'uniformat' && (
-                  <>
-                    <span className="text-[9px] font-mono text-emerald-400 font-extrabold uppercase tracking-widest pl-1 border-l-2 border-emerald-500 block">UNIFORMAT ELEMENTO FUNCIONAL</span>
-                    <h5 className="text-[14px] font-sans font-black text-white">Código Estándar: B2030 – Exterior Doors</h5>
-                    <p className="text-[11.5px] leading-relaxed text-slate-300 font-sans">
-                      Clasifica por su <strong>función constructiva</strong>. Al analista financiero o estimador temprano de costos le basta saber que en la envoltura exterior (B20) hay una puerta técnica externa (B2030), sin entrar a debatir si es metálica o de aluminio.
-                    </p>
-                    <div className="bg-emerald-500/[0.03] p-2.5 rounded border border-emerald-500/10 text-[10px] font-mono text-emerald-305">
-                      Ruta jerárquica: B (Shell / Envoltura) → B20 (Exterior Enclosure) → B2030 (Exterior Doors)
+              {/* Detail display panel */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${selectedElement}-${selectedStandard}`}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  transition={{ duration: 0.15 }}
+                  className="space-y-3.5"
+                >
+                  {/* Dynamic Code Output Banner */}
+                  <div className="flex justify-between items-center bg-black/45 p-3 rounded-lg border border-white/[0.03]">
+                    <div>
+                      <span className="text-[8px] font-mono text-zinc-500 block uppercase tracking-wider">CÓDIGO DE CLASIFICACIÓN ACTIVO</span>
+                      <span className="text-xs font-mono font-bold text-white uppercase">{selectedStandard.toUpperCase()} STANDARD ID</span>
                     </div>
-                  </>
-                )}
+                    <span className={`text-[12px] px-3 py-1.5 rounded font-mono font-black tracking-wide border bg-black/60 ${
+                      selectedStandard === 'omniclass' ? 'border-pink-500/30 text-pink-400' :
+                      selectedStandard === 'uniclass' ? 'border-sky-500/30 text-sky-400' :
+                      selectedStandard === 'uniformat' ? 'border-emerald-500/30 text-emerald-400' :
+                      'border-amber-500/30 text-amber-500'
+                    }`}>
+                      {selectedStandard === 'omniclass' && elementsData[selectedElement].omniClassCode}
+                      {selectedStandard === 'uniclass' && elementsData[selectedElement].uniClassCode}
+                      {selectedStandard === 'masterformat' && elementsData[selectedElement].masterFormatCode}
+                      {selectedStandard === 'uniformat' && elementsData[selectedElement].uniFormatCode}
+                    </span>
+                  </div>
 
-                {activeDoorClass === 'omniclass' && (
-                  <>
-                    <span className="text-[9px] font-mono text-pink-400 font-extrabold uppercase tracking-widest pl-1 border-l-2 border-pink-500 block">OMNICLASS TABLA 23 PRODUCTOS</span>
-                    <h5 className="text-[14px] font-sans font-black text-white">Código Estándar: 23-30 10 10 10</h5>
-                    <p className="text-[11.5px] leading-relaxed text-slate-300 font-sans">
-                      Mapea el objeto cruzando la información por <strong>múltiples tablas estructuradas</strong>. Puedes identificar la puerta física (Tabla 23) coordinándola con las actividades de instalación mecánica correspondientes (Tabla 22).
-                    </p>
-                    <div className="bg-pink-500/[0.03] p-2.5 rounded border border-pink-500/10 text-[10px] font-mono text-pink-305">
-                      Ruta jerárquica: Tabla 23 (Products) → 23-30 (Openings) → 23-30 10 (Doors & Gates)
-                    </div>
-                  </>
-                )}
+                  {/* Hierarchical Tree node list */}
+                  <div className="space-y-1.5 pl-2.5 border-l border-zinc-700/60 font-sans text-xs">
+                    <span className="text-[8.5px] font-mono text-zinc-500 uppercase tracking-widest block mb-1">Ruta Jerárquica del Código:</span>
+                    {(
+                      selectedStandard === 'omniclass' ? elementsData[selectedElement].omniClassPath : 
+                      selectedStandard === 'uniclass' ? elementsData[selectedElement].uniClassPath : 
+                      selectedStandard === 'uniformat' ? elementsData[selectedElement].uniFormatPath :
+                      elementsData[selectedElement].masterFormatPath
+                    ).map((pathNode, idx, arr) => (
+                      <div key={idx} className="flex flex-wrap items-center gap-1.5 text-zinc-300">
+                        <span className="text-[9px] font-mono text-zinc-550 shrink-0">Nivel {idx + 1}:</span>
+                        <span className={`font-semibold ${
+                          idx === arr.length - 1 ? (
+                            selectedStandard === 'omniclass' ? 'text-pink-400' :
+                            selectedStandard === 'uniclass' ? 'text-sky-450' :
+                            selectedStandard === 'uniformat' ? 'text-emerald-450' :
+                            'text-amber-450'
+                          ) : "text-zinc-300"
+                        }`}>
+                          {pathNode}
+                        </span>
+                        {idx !== arr.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-700 shrink-0" />}
+                      </div>
+                    ))}
+                  </div>
 
-                {activeDoorClass === 'masterformat' && (
-                  <>
-                    <span className="text-[9px] font-mono text-amber-400 font-extrabold uppercase tracking-widest pl-1 border-l-2 border-amber-500 block">MASTERFORMAT ESPECIFICACIÓN DETALLADA</span>
-                    <h5 className="text-[14px] font-sans font-black text-white">Código Estándar: 08 11 13 – Hollow Metal Doors</h5>
-                    <p className="text-[11.5px] leading-relaxed text-slate-300 font-sans">
-                      Determina los <strong>materiales, el oficio calificado que la instala y la cláusula del contrato</strong>. Al comprador de materiales u operador de obra técnica le indica que debe remitirse a las características de puertas metálicas huecas de la división 08.
-                    </p>
-                    <div className="bg-amber-500/[0.03] p-2.5 rounded border border-amber-500/10 text-[10px] font-mono text-amber-305">
-                      Ruta jerárquica: División 08 (Openings) → 08 11 00 (Metal Doors and Frames) → 08 11 13 (Hollow Metal Doors)
-                    </div>
-                  </>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  {/* Explanation text */}
+                  <div className="text-xs text-slate-350 leading-relaxed pl-1">
+                    📖 <strong>Propósito de Clasificación:</strong> {
+                      selectedStandard === 'uniclass' ? elementsData[selectedElement].uniClassExplanation :
+                      selectedStandard === 'uniformat' ? elementsData[selectedElement].uniFormatExplanation :
+                      selectedStandard === 'omniclass' ? elementsData[selectedElement].omniClassExplanation :
+                      elementsData[selectedElement].masterFormatExplanation
+                    }
+                  </div>
 
-            <div className="border-t border-white/5 pt-2.5 mt-4 text-[10px] italic text-zinc-500 font-sans">
-              📍 <strong>Conclusión:</strong> Al cambiar el selector compruebas que el objeto en el modelo 3D sigue siendo el mismo, pero su código responde a un flujo de trabajo y formato de exportación diferente.
+                </motion.div>
+              </AnimatePresence>
             </div>
+
+            {/* Special Pedagogic Target Lesson (STUDENT-LED feedback, as requested) */}
+            <div className="mt-4 pt-3.5 border-t border-white/5">
+              <div className="p-3 bg-pink-500/[0.04] border border-pink-500/25 rounded-xl text-left text-slate-300 font-sans leading-relaxed text-[11px] shadow-inner">
+                <span className="text-[10px] font-mono text-pink-500 font-extrabold uppercase tracking-widest block mb-1">
+                  💡 IMPACTO PROFESIONAL (PARA TI COMO ESTUDIANTE / MODELADOR)
+                </span>
+                <p className="opacity-95 leading-normal">
+                  {elementsData[selectedElement].studentFocus}
+                </p>
+              </div>
+            </div>
+
           </div>
 
         </div>
