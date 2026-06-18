@@ -32,7 +32,10 @@ import { PropiedadIntelectualSlide } from './components/PropiedadIntelectualSlid
 import { ClasificacionBimSlide } from './components/ClasificacionBimSlide';
 import { ComparativaClasificacionSlide } from './components/ComparativaClasificacionSlide';
 import { EstrategiasDatosSlide } from './components/EstrategiasDatosSlide';
-import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag } from 'lucide-react';
+import { OpenBimIfcSlide } from './components/OpenBimIfcSlide';
+import { OpenBimBcfSlide } from './components/OpenBimBcfSlide';
+import { OpenBimCobieSlide } from './components/OpenBimCobieSlide';
+import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag, FileCode, Compass, FileSpreadsheet } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -278,6 +281,12 @@ const Sidebar = ({
     { idx: 22, title: "3. Estrategias de Datos", icon: <Database className="w-4 h-4" /> },
   ];
 
+  const clase8Steps = [
+    { idx: 23, title: "1. Anatomía IFC", icon: <FileCode className="w-4 h-4" /> },
+    { idx: 24, title: "2. Incidencias BCF", icon: <Compass className="w-4 h-4" /> },
+    { idx: 25, title: "3. Extracción COBie", icon: <FileSpreadsheet className="w-4 h-4" /> },
+  ];
+
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     const startX = e.clientX;
@@ -453,6 +462,29 @@ const Sidebar = ({
                   )}
                 >
                   <span className={cn(current === step.idx ? "text-pink-500" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-[#38bdf8] uppercase tracking-[0.25em] font-mono">
+              Clase 7: Open BIM e Interoperabilidad
+            </div>
+            <div className="space-y-1">
+              {clase8Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-[#38bdf8]/15 text-white border border-[#38bdf8]/35 shadow-[0_0_15px_rgba(56,189,248,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-[#38bdf8]" : "text-slate-600")}>{step.icon}</span>
                   {step.title}
                 </button>
               ))}
@@ -1752,7 +1784,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 23;
+  const totalSlides = 26;
   const [sidebarWidth, setSidebarWidth] = useState(288); // Default to 288px (w-72 equivalent)
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
@@ -1826,6 +1858,9 @@ export default function App() {
               {slide === 20 && <ClasificacionBimSlide />}
               {slide === 21 && <ComparativaClasificacionSlide />}
               {slide === 22 && <EstrategiasDatosSlide />}
+              {slide === 23 && <OpenBimIfcSlide />}
+              {slide === 24 && <OpenBimBcfSlide />}
+              {slide === 25 && <OpenBimCobieSlide />}
             </motion.div>
           </AnimatePresence>
         </div>
