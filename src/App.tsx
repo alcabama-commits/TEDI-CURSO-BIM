@@ -35,7 +35,11 @@ import { EstrategiasDatosSlide } from './components/EstrategiasDatosSlide';
 import { OpenBimIfcSlide } from './components/OpenBimIfcSlide';
 import { OpenBimBcfSlide } from './components/OpenBimBcfSlide';
 import { OpenBimCobieSlide } from './components/OpenBimCobieSlide';
-import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag, FileCode, Compass, FileSpreadsheet } from 'lucide-react';
+import { LoinLodSlide } from './components/LoinLodSlide';
+import { LoinDefinitionSlide } from './components/LoinDefinitionSlide';
+import { LoinComparisonSlide } from './components/LoinComparisonSlide';
+import { LoinAuditSlide } from './components/LoinAuditSlide';
+import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag, FileCode, Compass, FileSpreadsheet, Building, Info, BarChart3, ClipboardCheck } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -287,6 +291,13 @@ const Sidebar = ({
     { idx: 25, title: "3. Extracción COBie", icon: <FileSpreadsheet className="w-4 h-4" /> },
   ];
 
+  const clase9Steps = [
+    { idx: 26, title: "1. Niveles de LOD", icon: <Building className="w-4 h-4" /> },
+    { idx: 27, title: "2. Definición de LOIN", icon: <Info className="w-4 h-4" /> },
+    { idx: 28, title: "3. Tabla Comparativa", icon: <BarChart3 className="w-4 h-4" /> },
+    { idx: 29, title: "4. Auditoría y Control", icon: <ClipboardCheck className="w-4 h-4" /> },
+  ];
+
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     const startX = e.clientX;
@@ -485,6 +496,28 @@ const Sidebar = ({
                   )}
                 >
                   <span className={cn(current === step.idx ? "text-[#38bdf8]" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-purple-400 uppercase tracking-[0.25em] font-mono">
+              Clase 8: Nivel de Información (LOIN)
+            </div>
+            <div className="space-y-1">
+              {clase9Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-purple-500/15 text-white border border-purple-500/35 shadow-[0_0_15px_rgba(168,85,247,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-purple-500" : "text-slate-600")}>{step.icon}</span>
                   {step.title}
                 </button>
               ))}
@@ -1784,7 +1817,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 26;
+  const totalSlides = 30;
   const [sidebarWidth, setSidebarWidth] = useState(288); // Default to 288px (w-72 equivalent)
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
@@ -1861,6 +1894,10 @@ export default function App() {
               {slide === 23 && <OpenBimIfcSlide />}
               {slide === 24 && <OpenBimBcfSlide />}
               {slide === 25 && <OpenBimCobieSlide />}
+              {slide === 26 && <LoinLodSlide />}
+              {slide === 27 && <LoinDefinitionSlide />}
+              {slide === 28 && <LoinComparisonSlide />}
+              {slide === 29 && <LoinAuditSlide />}
             </motion.div>
           </AnimatePresence>
         </div>
