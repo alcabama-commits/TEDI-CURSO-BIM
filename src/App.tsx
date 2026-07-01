@@ -39,7 +39,10 @@ import { LoinLodSlide } from './components/LoinLodSlide';
 import { LoinDefinitionSlide } from './components/LoinDefinitionSlide';
 import { LoinComparisonSlide } from './components/LoinComparisonSlide';
 import { LoinAuditSlide } from './components/LoinAuditSlide';
-import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag, FileCode, Compass, FileSpreadsheet, Building, Info, BarChart3, ClipboardCheck } from 'lucide-react';
+import { ClashDetectionSlide } from './components/ClashDetectionSlide';
+import { NoiseToleranceSlide } from './components/NoiseToleranceSlide';
+import { PrevalenceAndCostsSlide } from './components/PrevalenceAndCostsSlide';
+import { RefreshCw, Share2, Network, HardHat, ShieldCheck, HardDrive, Scale, Tag, FileCode, Compass, FileSpreadsheet, Building, BarChart3, ClipboardCheck } from 'lucide-react';
 
 // --- Types ---
 interface SlideProps {
@@ -298,6 +301,12 @@ const Sidebar = ({
     { idx: 29, title: "4. Auditoría y Control", icon: <ClipboardCheck className="w-4 h-4" /> },
   ];
 
+  const clase10Steps = [
+    { idx: 30, title: "1. Tipos de Colisiones", icon: <ShieldAlert className="w-4 h-4" /> },
+    { idx: 31, title: "2. Estrategia de Ruido", icon: <Sliders className="w-4 h-4" /> },
+    { idx: 32, title: "3. Prevalencia y Costos", icon: <Scale className="w-4 h-4" /> },
+  ];
+
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     const startX = e.clientX;
@@ -518,6 +527,28 @@ const Sidebar = ({
                   )}
                 >
                   <span className={cn(current === step.idx ? "text-purple-500" : "text-slate-600")}>{step.icon}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="px-4 mb-3 text-[8px] font-black text-red-500 uppercase tracking-[0.25em] font-mono">
+              Clase 9: Coordinación 3D
+            </div>
+            <div className="space-y-1">
+              {clase10Steps.map((step) => (
+                <button
+                  key={step.idx}
+                  onClick={() => onJump(step.idx)}
+                  className={cn(
+                    "flex items-center gap-4 w-full px-4 py-2.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest cursor-pointer",
+                    current === step.idx 
+                      ? "bg-red-500/15 text-white border border-red-500/35 shadow-[0_0_15px_rgba(239,68,68,0.15)] font-black" 
+                      : "text-slate-500 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  <span className={cn(current === step.idx ? "text-red-500" : "text-slate-600")}>{step.icon}</span>
                   {step.title}
                 </button>
               ))}
@@ -1817,7 +1848,7 @@ const AIChatSlide = () => {
 
 export default function App() {
   const [slide, setSlide] = useState(0);
-  const totalSlides = 30;
+  const totalSlides = 33;
   const [sidebarWidth, setSidebarWidth] = useState(288); // Default to 288px (w-72 equivalent)
 
   const nextSlide = () => setSlide(s => Math.min(s + 1, totalSlides - 1));
@@ -1898,6 +1929,9 @@ export default function App() {
               {slide === 27 && <LoinDefinitionSlide />}
               {slide === 28 && <LoinComparisonSlide />}
               {slide === 29 && <LoinAuditSlide />}
+              {slide === 30 && <ClashDetectionSlide />}
+              {slide === 31 && <NoiseToleranceSlide />}
+              {slide === 32 && <PrevalenceAndCostsSlide />}
             </motion.div>
           </AnimatePresence>
         </div>

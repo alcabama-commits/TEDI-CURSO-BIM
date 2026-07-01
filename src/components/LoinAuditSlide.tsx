@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ClipboardCheck, ShieldCheck, HardHat, FileSearch } from 'lucide-react';
 
-const AuditPoint = ({ number, title, desc, icon: Icon, details }: { number: string, title: string, desc: string, icon: any, details: { example: string, method: string } }) => {
+const AuditPoint = ({ number, title, desc, icon: Icon, details }: { number: string, title: string, desc: string, icon: any, details: { example: string, method: string }, [key: string]: any }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <motion.div layout className="rounded-xl bg-slate-900/50 border border-white/5 overflow-hidden hover:border-purple-500/30 transition-colors">
