@@ -1,0 +1,877 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ClipboardList, Award, CheckCircle, HelpCircle, ArrowUpRight, Check, Play, TrendingUp, Info, Compass, Sparkles, Server, Cpu, Globe, BookOpen, Layers, Users, Zap, FileText } from 'lucide-react';
+
+interface Dimension {
+  id: string;
+  category: 'tecnologia' | 'procesos' | 'politicas' | 'capacidad' | 'escala';
+  name: string;
+  icon: string;
+  description: string;
+  levels: {
+    title: string;
+    description: string;
+    color: string;
+    bg: string;
+    border: string;
+  }[];
+}
+
+const DIMENSIONS: Dimension[] = [
+  // --- TECNOLOGÍA (9 filas) ---
+  {
+    id: 'sw_seleccion',
+    category: 'tecnologia',
+    name: 'Software: Selección y Uso',
+    icon: '💻',
+    description: 'Gestión del software, herramientas de modelado y selección funcional.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No existen criterios funcionales para el uso y selección del software.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'El equipo está de acuerdo en utilizar las mismas herramientas para todo el proceso.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La selección de software y su uso se controla y gestiona de acuerdo con los entregables definidos.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La selección e implementación de software sigue objetivos estratégicos, no sólo necesidades operacionales.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La selección / uso de herramientas de software se revisa continuamente para mejorar la productividad y se alinea con los objetivos estratégicos.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'sw_modelos',
+    category: 'tecnologia',
+    name: 'Software: Modelos 3D',
+    icon: '📐',
+    description: 'Uso de modelos 3D y su propósito principal de generación de entregables.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los Modelos 3D se usan como base para generar principalmente representaciones 2D / entregables precisos.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los Modelos 3D se utilizan como base para generar tanto entregables 2D como 3D (por ejemplo para visualización).', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los modelos son la base para las vistas 3D, representaciones 2D, cuantificación, especificación y estudios analíticos.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los entregables del modelado están bien sincronizados a través de proyectos y estrechamente integrados con los procesos de negocio.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los entregables del modelado se revisan / optimizan cíclicamente para beneficiarse de las nuevas funcionalidades y extensiones disponibles de software.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'sw_gestion',
+    category: 'tecnologia',
+    name: 'Software: Gestión de Información',
+    icon: '📁',
+    description: 'Definición, control y monitoreo del uso y almacenamiento de información.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'El uso, almacenamiento e intercambio de información no se definen dentro de las organizaciones o equipos de proyectos.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'El uso, almacenamiento e intercambio de información están bien definidos dentro de las organizaciones y equipos de proyecto.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'El uso, almacenamiento e intercambio de información son monitoreados y controlados.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'El uso, almacenamiento e intercambio de información: son interoperables, sigue un estándar y se llevan a cabo como parte de una estrategia global de la organización o equipo de proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Todos los asuntos relacionados con el almacenamiento y uso de información interoperables están documentados, controlados, evaluados y mejorados de forma proactiva.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'sw_intercambios',
+    category: 'tecnologia',
+    name: 'Software: Intercambios e Interoperabilidad',
+    icon: '🔄',
+    description: 'Nivel de compatibilidad, flujo de datos y control de interoperabilidad.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los intercambios de información sufren de una falta grave de interoperabilidad.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los intercambios de información interoperables están definidos y priorizados.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'El flujo de datos está documentado y bien gestionado. Los intercambios de información interoperables son obligatorios y se controlan con rigor.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los flujos de información se llevan a cabo como parte de una estrategia global de la organización o equipo de proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Todos los asuntos relacionados con intercambio de información interoperables están documentados, controlados, evaluados y mejorados de forma proactiva.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'hw_equipamiento',
+    category: 'tecnologia',
+    name: 'Hardware: Equipamiento',
+    icon: '🖥️',
+    description: 'Estaciones de trabajo, servidores e inventariado tecnológico.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los equipos son inadecuados; las especificaciones son demasiado bajas, inconsistentes en toda la organización y se desconoce de los requerimientos de hardware.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Las especificaciones de los equipos -Son adecuados de acuerdo al alcance BIM de la organización - se definen, presupuestan y estandarizan.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se dispone de una estrategia para documentar, gestionar y mantener el inventario de los equipos con transparencia.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La selección adecuada del hardware se considera indispensable para el cumplimiento de tareas según el rol orientado a la optimización del desempeño BIM.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los equipos existentes y las soluciones innovadoras se prueban, actualizan y despliegan continuamente.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'hw_actualizacion',
+    category: 'tecnologia',
+    name: 'Hardware: Inversión y Actualización',
+    icon: '⚡',
+    description: 'Sustitución, presupuestación y alineación financiera del hardware.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'La sustitución o mejora de equipos se considera un costo y sólo se realiza cuando es inevitable.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Las sustituciones y actualizaciones de hardware están integradas y bien definidas en el presupuesto de la organización.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La inversión en hardware está bien orientada y definida a los roles del equipo de trabajo para mejorar y ampliar la productividad.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La inversión en equipos se integra perfectamente con los planes financieros, estrategias de negocio y los objetivos de desempeño.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'El hardware se convierte en parte de la ventaja competitiva de la organización o del equipo de proyecto.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'red_infraestructura',
+    category: 'tecnologia',
+    name: 'Red: Soluciones de Red y CDE',
+    icon: '🌐',
+    description: 'Gestión centralizada del Entorno Común de Datos (CDE) e intercambio de datos.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Las soluciones de red no existen o carecen de una gestión centralizada.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se identifican soluciones de red para compartir información y controlar su acceso tanto interno como entre organizaciones.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Las soluciones de red para recopilar, almacenar y compartir el conocimiento interno y entre organizaciones se gestionan bien a través de plataformas comunes (por ejemplo: intranets o extranets).', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las soluciones de red permiten la integración de múltiples facetas del proceso BIM a través del intercambio en tiempo real continuo de datos, información y conocimientos.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las soluciones de red se evalúan continuamente y se sustituyen por las últimas innovaciones probadas.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'red_canales',
+    category: 'tecnologia',
+    name: 'Red: Canales de Comunicación',
+    icon: '💬',
+    description: 'Herramientas de comunicación, intercambio y soporte por protocolo.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Profesionales, organizaciones (en la misma ubicación o dispersos) y equipos de proyecto usan cualquier herramienta para comunicarse o compartir datos y el proceso no está soportado por un protocolo.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'A nivel de proyecto, los integrantes identifican sus requerimientos para compartir datos/información.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se despliegan herramientas de gestión de contenidos y activos para regular los datos estructurados y no estructurados compartidos a través de conexiones de banda ancha.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las soluciones incluyen redes / portales específicos del proyecto que permiten el intercambio de datos intensivos (intercambio) interoperable entre las partes interesadas.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las redes facilitan adquirir, almacenar y compartir conocimientos entre todas las partes interesadas.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'red_conectividad',
+    category: 'tecnologia',
+    name: 'Red: Ancho de Banda y Conectividad',
+    icon: '📡',
+    description: 'Velocidad de conexión y monitoreo de la infraestructura de comunicación.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Las partes interesadas carecen de la infraestructura de red necesaria para recopilar, almacenar y compartir conocimientos.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Las organizaciones y equipos de proyecto dispersos están conectados a través de conexiones de ancho de banda relativamente bajo.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Las organizaciones y equipos de proyecto dispersos están conectados a través de conexiones de banda ancha.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las organizaciones y equipos de proyecto dispersos están conectados a través de conexiones dedicadas.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La optimización de datos integrados, los procesos y los canales de comunicación son monitoreados y mejorados de acuerdo a la disponibilidad de nuevas tecnologías de red.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+
+  // --- PROCESOS (9 filas) ---
+  {
+    id: 'rec_entorno',
+    category: 'procesos',
+    name: 'Recursos: Entorno de Trabajo',
+    icon: '🏢',
+    description: 'Lugar de trabajo, motivación, productividad e infraestructura física.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'El entorno de trabajo, o bien no se reconoce como un factor de la satisfacción del personal o puede no ser propicio para la productividad.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'El entorno de trabajo y las herramientas en el lugar de trabajo se identifican como factores que influyen en la motivación y la productividad.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'El entorno de trabajo es controlado, modificado y sus criterios gestionados para aumentar la motivación del personal, la satisfacción y la productividad.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los factores ambientales se integran en las estrategias de desempeño.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los factores físicos del lugar de trabajo se revisan constantemente para asegurar la satisfacción del personal y un entorno propicio para la productividad.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'rec_conocimiento',
+    category: 'procesos',
+    name: 'Recursos: Gestión de Conocimiento',
+    icon: '📚',
+    description: 'Activo intelectual, transferencia de tácito a explícito y bases de conocimiento.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'El conocimiento no es reconocido como un activo; el conocimiento BIM suele compartirse de forma informal entre el personal (a través de consejos, técnicas y lecciones aprendidas).', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Del mismo modo, el conocimiento es reconocido como un activo; el conocimiento compartido es recopilado, documentado y después transferido de tácito a explícito.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'El conocimiento documentado se almacena adecuadamente.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'El conocimiento se integra en los sistemas de organización; el conocimiento almacenado se hace accesible y fácilmente recuperable.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Del mismo modo, las estructuras de conocimiento responsables de la adquisición, representación y difusión se revisan y modifican sistémicamente.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'act_roles',
+    category: 'procesos',
+    name: 'Actividades: Roles y Estructura de Equipos',
+    icon: '⚙️',
+    description: 'Estructuración de roles BIM, flujos organizacionales y contratación de personal.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No hay procesos definidos; los roles son ambiguos y estructuras de equipo / dinámicas son inconsistentes.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los roles BIM se definen informalmente y los equipos se forman en consecuencia.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los roles BIM se definen formalmente y los equipos se forman en consecuencia. El conocimiento específico en roles BIM es un criterio de selección al contratar nuevos colaboradores.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los roles BIM y los objetivos de competencia se arraigan en la organización. No hay un "equipo BIM" aislado, sino una organización BIM.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los objetivos de competencia BIM mejoran de manera continua para que coincidan con los avances tecnológicos y se alineen con los objetivos organizacionales.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'act_colaboracion',
+    category: 'procesos',
+    name: 'Actividades: Flujos y Colaboración',
+    icon: '🤝',
+    description: 'Planificación de procesos, comunicación de disciplinas e integración cultural.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los miembros del equipo de proyecto se resisten a usar nuevas metodologías de trabajo.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Cada proceso se planifica de forma independiente sin un alcance definido. Hay iniciativas aisladas para lograr los objetivos de cada disciplina sin comunicación efectiva entre sí.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La cooperación en las áreas de la organización aumenta a medida que se ponen a disposición las herramientas para la comunicación entre los equipos de proyecto. Existe un flujo de información constante.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los equipos tradicionales son orientados a BIM a medida que los nuevos procesos se convierten en parte de la cultura de la organización / del equipo del proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los Equipos BIM están integrados al core de la organización.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'act_productividad',
+    category: 'procesos',
+    name: 'Actividades: Rendimiento y Productividad',
+    icon: '📈',
+    description: 'Predictibilidad, esfuerzo colectivo y prácticas de capital intelectual.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'El rendimiento es impredecible y la productividad depende de esfuerzos individuales aislados.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se identifican las competencias BIM y se definen objetivos en torno a estas; los resultados se basan en esfuerzos colectivos y no en esfuerzo individual, se aumentan las capacidades del equipo, pero la productividad sigue siendo impredecible.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los roles BIM son visibles y los objetivos se consiguen de forma más consistente o mantienen una correlación con el esfuerzo aplicado.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Con roles BIM plenamente integrados dentro de la organización, la productividad es ahora predecible y hay poca dispersión entre lo proyectado y lo ejecutado.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las prácticas de recursos humanos se revisan de forma proactiva para asegurar que el capital intelectual coincida con las necesidades del proceso.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'mod_lod',
+    category: 'procesos',
+    name: 'Modelos y Usos BIM: Estructuración y LOD',
+    icon: '📐',
+    description: 'Nivel de desarrollo, consistencia espacial y estructuración de entregables.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los entregables de modelos 3D sufren de niveles de detalle demasiado altos, demasiado bajos o inconsistentes.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se dispone de un documento que defina la estructuración de los objetos del modelo 3D.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los modelos y usos se empiezan a especificar definiendo el nivel de desarrollo LOD.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'El modelo y los usos están plenamente implementados, especificados y diferenciados definiendo las especificaciones de progreso del modelo o similar (LOD).', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los modelos y los usos BIM son evaluados constantemente; los bucles de retroalimentación promueven la mejora continua.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'lid_vision',
+    category: 'procesos',
+    name: 'Liderazgo & Gestión: Visión Corporativa',
+    icon: '👑',
+    description: 'Visión de los líderes, alineación estratégica y socialización.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los líderes tienen varias visiones sobre BIM.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los líderes adoptan una visión común sobre BIM.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se comunica la visión de implementar BIM y es entendida por la mayoría del personal.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La visión es compartida por el personal de toda la organización y / o los socios del proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las partes interesadas han interiorizado la visión BIM y se logra activamente.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'lid_estrategia',
+    category: 'procesos',
+    name: 'Liderazgo & Gestión: Planes y Estrategias',
+    icon: '🗺️',
+    description: 'Planes de acción, políticas de control y gestión del cambio tecnológico.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'La implementación de BIM (según los requisitos BIM de la etapa) se lleva a cabo sin una estrategia.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'La aproximación a la implementación BIM carece de datos procesables. BIM se trata únicamente como un proceso de cambio tecnológico.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La estrategia de implementación BIM va de la mano con planes de acción detallados y una política de seguimiento y control.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La implementación de BIM, sus requisitos y la innovación de procesos / productos están integrados a la estructura organizacional, estratégica, de gestión y de comunicación.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La estrategia de implementación de BIM y sus efectos en los modelos de organización se revisa de forma continua y alineada con otras estrategias. Si son necesarias modificaciones, se implementan de forma proactiva.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'lid_innovacion',
+    category: 'procesos',
+    name: 'Liderazgo & Gestión: Innovación Corporativa',
+    icon: '💡',
+    description: 'Oportunidades de negocio, marketing estratégico y soluciones innovadoras.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'La innovación no se reconoce como un valor independiente y no se reconocen las oportunidades de negocios que surgen de BIM.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se reconocen las innovaciones de producto y proceso; Se identifican las oportunidades de negocio derivadas de BIM, pero no se explotan.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'BIM es reconocido como una serie de tecnologías, procesos y cambios en las políticas que deben ser gestionados sin poner trabas a la innovación. Se reconocen las oportunidades de negocio derivadas de BIM y se utilizan en las estrategias de marketing.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las oportunidades de negocio derivadas de BIM son parte de la ventaja competitiva del equipo, organización o del equipo de proyectos y se utilizan para atraer y mantener a los clientes.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La organización está en búsqueda permanente de soluciones innovadoras en sus productos y procesos.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+
+  // --- POLÍTICAS (7 filas) ---
+  {
+    id: 'ent_requisitos',
+    category: 'politicas',
+    name: 'Entrenamiento: Requisitos y Perfiles',
+    icon: '🎓',
+    description: 'Requisitos de entrenamiento, competencias pre-establecidas y perfiles.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Bajo o nulo nivel de entrenamiento BIM a disposición del personal.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se definen los requisitos de entrenamiento y por lo general se proporcionan sólo cuando es necesario.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los requisitos de entrenamiento se gestionan para cumplir con las competencias pre-establecidas y los objetivos de desempeño.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'El entrenamiento se integra en las estrategias de organización y objetivos de desempeño. Los contenidos de entrenamiento se basan en las funciones.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'El entrenamiento se evalúa y mejora de forma continua.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'ent_programas',
+    category: 'politicas',
+    name: 'Entrenamiento: Programas y Canales Multimodales',
+    icon: '🏫',
+    description: 'Metodologías de entrenamiento, flexibilidad y aprendizaje continuo.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los programas de entrenamiento seleccionados no son adecuados para alcanzar los resultados buscados.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Las metodologías de entrenamiento son diversas, permitiendo flexibilidad en la distribución de contenidos.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Las metodologías de entrenamiento se adaptan a los perfiles para alcanzar los objetivos de aprendizaje de una manera efectiva.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las metodologías de entrenamiento se incorporan en los canales de conocimiento y comunicación.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La disponibilidad de entrenamientos multimodales se diseñan para permitir el aprendizaje continuo.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'est_politicas',
+    category: 'politicas',
+    name: 'Estándares: Políticas y Protocolos de Información',
+    icon: '📋',
+    description: 'Políticas generales de gestión de información, plan de ejecución BIM (BEP) e integración de negocio.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No hay políticas, protocolos de gestión de la información.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Existen algunas políticas generales disponibles (ej: plan de ejecución BIM).', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Hay políticas detalladas disponibles (estándares, flujos, etc ).', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las políticas BIM están integradas en las políticas organizacionales y las estrategias de negocio.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las políticas BIM se revisan continua y proactivamente para incorporar las lecciones aprendidas y las mejores prácticas de la industria.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'est_gestion',
+    category: 'politicas',
+    name: 'Estándares: Gestión de Información y Modelado',
+    icon: '📊',
+    description: 'Manuales de modelado, especificación analítica e incorporación a sistemas de calidad.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No hay estándares de gestión de información y modelado.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los estándares de Modelado y documentación están definidos y alineados con la industria pero no se aplican activamente.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los estándares de modelado detallado incluyen la representación, la cuantificación, las especificaciones y las propiedades analíticas de los modelos 3D.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los estándares BIM se incorporan en los sistemas de gestión de calidad y de mejoramiento continuo.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los estándares se adaptan continuamente al cumplimiento de normativa y regulaciones.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'est_calidad',
+    category: 'politicas',
+    name: 'Estándares: Control y Aseguramiento de Calidad',
+    icon: '🛡️',
+    description: 'Objetivos de calidad, sistemas de control periódico y auditoría continua.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los planes de control de calidad son informales o no existen.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se fijan los objetivos de calidad.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se fijan planes de calidad.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Se fijan sistemas de gestión y aseguramiento de calidad.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Se alinean continuamente la mejora de calidad.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'con_responsabilidades',
+    category: 'politicas',
+    name: 'Contractual: Responsabilidades, Riesgos y Beneficios',
+    icon: '⚖️',
+    description: 'Apéndice contractual EIR/BEP, propiedad intelectual y alineación contractual IPD.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Es dependiente de los acuerdos contractuales pre-BIM. No se reconocen los riesgos relacionados con la colaboración basada en el modelo o se ignoran.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se reconocen los requerimientos contractuales BIM respecto a la responsabilidad en la gestión de información.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Existe un mecanismo para la gestión compartida de la propiedad intelectual BIM, la confidencialidad, la responsabilidad y un sistema para la resolución de conflictos BIM.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las organizaciones están alineadas a través de la confianza y la dependencia mutua más allá de las barreras contractuales.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las responsabilidades, riesgos y beneficios se analizan de forma continua y adaptan al alcance. Se modifican los modelos contractuales para lograr mejores prácticas y mayor valor para todas las partes interesadas.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'ind_desempeño',
+    category: 'politicas',
+    name: 'Políticas: Indicadores de Calidad y Desempeño',
+    icon: '📊',
+    description: 'Establecimiento, monitoreo e integración de indicadores clave de desempeño corporativo.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No hay referencia de indicadores para procesos, productos o servicios.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se fijan Objetivos de indicadores de desempeño.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se monitorea y controla estrechamente el desempeño frente a referencias del mercado.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los indicadores de desempeño se incorporan en los sistemas de mejoramiento continuo.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los indicadores se revisan de forma reiterada para asegurar la mayor calidad en procesos, productos y servicios.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+
+  // --- CAPACIDAD BIM (5 filas) ---
+  {
+    id: 'cap_modelado',
+    category: 'capacidad',
+    name: 'Capacidad: Modelado Basado en Objetos',
+    icon: '📦',
+    description: 'Pilotos, definición formal e integración de flujos tecnológicos en una fase o disciplina.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Implementación de una herramienta basada en objetos. No se identifican cambios de proceso o en las políticas para acompañar esta implementación.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se han acabado los proyectos piloto. Se identifican los requisitos del proceso y de la política BIM. Se prepara la estrategia de implementación y los planes de detalle.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Se instigan, estandarizan y controlan los procesos y la política BIM.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Las tecnologías, procesos y política BIM están integradas en las estrategias de organización y alineadas con los objetivos de negocio.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Las tecnologías, procesos y política BIM se revisan continuamente para beneficiarse de la innovación y alcanzar los objetivos de desempeño más altos.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'cap_col_metodo',
+    category: 'capacidad',
+    name: 'Capacidad: Colaboración Basada en Modelo (Método)',
+    icon: '🤝',
+    description: 'Compatibilidad de procesos, intercambio proactivo y coordinación interdisciplinaria.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Esfuerzos aislados de colaboración; las capacidades internas de colaboración son incompatibles con los demás actores involucrados del proyecto.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Colaboración BIM uno a uno, envío y recepción de información a solicitud no programada de los actores del proyecto.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Colaboración proactiva entre las múltiples partes; los protocolos están bien documentados y gestionados.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Se caracteriza por la participación de los actores clave (por ej. Diseñadores, Constructor, Cliente) durante las fases iniciales del ciclo de vida del proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Equipo integrado por múltiples partes que incluye a todos los actores clave de la cadena de valor.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'cap_col_confianza',
+    category: 'capacidad',
+    name: 'Capacidad: Colaboración Basada en Modelo (Confianza)',
+    icon: '🤝',
+    description: 'Directrices de trabajo colaborativo, confianza mutua y riesgos compartidos.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No hay confianza entre los participantes y no existen directrices de trabajo colaborativo.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Puede faltar confianza entre los participantes y no se respetan las directrices de trabajo colaborativo.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Hay señales identificables de la confianza mutua y se respetan las directrices de trabajo colaborativo entre los participantes del proyecto.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Existe confianza mutua, respeto, riesgos y beneficios compartidos entre los participantes del proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'El entorno colaborativo es caracterizado por la confianza y el respeto a las directrices definidas.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'cap_red_modelos',
+    category: 'capacidad',
+    name: 'Capacidad: Integración Basada en Red (Modelos)',
+    icon: '🌐',
+    description: 'Generación, gestión y optimización de modelos integrados en la red.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Los modelos integrados son generados por una serie limitada de participantes en el proyecto - posiblemente por barreras organizacionales.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los modelos integrados son generados por un gran subconjunto de los participantes en el proyecto.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los modelos integrados (o partes de) son generados y gestionados por la mayoría de los participantes en el proyecto.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los modelos integrados son generados y gestionados por todos los participantes clave del proyecto.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Se revisa y optimiza continuamente la integración de modelos y flujos de trabajo.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'cap_red_coordinacion',
+    category: 'capacidad',
+    name: 'Capacidad: Integración Basada en Red (Coordinación)',
+    icon: '⚡',
+    description: 'Intercambio concurrente e interdisciplinario y detección proactiva de desajustes.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'La integración se produce con guías de procesos, normas o protocolos de intercambio poco o no definidos.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'La integración sigue guías de proceso, normas y protocolos de intercambio pre-definidos.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La integración sigue guías de proceso, normas y protocolos de intercambio definidas y adaptadas a las estrategias de la organización.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'La integración es la norma y el foco no está en la forma de integrar modelos o flujos de trabajo, sino en la detección y resolución proactiva de los desajustes de tecnología, procesos y políticas.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Un equipo de proyecto interdisciplinar, estrechamente unido, persigue de forma activa nuevas eficiencias, entregables y alineaciones.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+
+  // --- ESCALA (3 filas) ---
+  {
+    id: 'esc_organizaciones',
+    category: 'escala',
+    name: 'Escala: Organizaciones',
+    icon: '🏢',
+    description: 'Liderazgo formal, estructuración de roles y liderazgo dinámico adaptable.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'No existe un liderazgo BIM; la implementación depende de los campeones de la tecnología.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Se formaliza el liderazgo BIM; los diferentes roles en el proceso de implementación están definidos.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los roles BIM Pre-definidos se complementan entre ellos en la gestión del proceso de implementación.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los roles BIM están integrados en las estructuras de liderazgo de la organización.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'El liderazgo BIM muta continuamente para permitir nuevas tecnologías, procesos y entregables.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'esc_equipos',
+    category: 'escala',
+    name: 'Escala: Equipos de Proyecto',
+    icon: '👥',
+    description: 'Colaboración inter-organizacional, alianzas temporales y equipos integrados.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Cada proyecto se ejecuta de forma independiente. No existe ningún acuerdo entre los agentes que intervienen para colaborar más allá del proyecto común actual.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los participantes piensan más allá de un solo proyecto. Se definen y documentan los protocolos de colaboración entre participantes del proyecto.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'La colaboración entre múltiples organizaciones en varios proyectos se gestiona a través de alianzas temporales entre participantes.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'Los proyectos de colaboración los realizan organizaciones interdisciplinares o equipos de proyectos multidisciplinares; una alianza entre muchos actores clave.', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'Los proyectos de colaboración son realizados por equipos de proyectos interdisciplinares auto-optimizados, que incluyen a la mayoría de los participantes.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  },
+  {
+    id: 'esc_mercados',
+    category: 'escala',
+    name: 'Escala: Mercados',
+    icon: '📈',
+    description: 'Componentes generados por proveedores, repositorios centrales y conexión interactiva.',
+    levels: [
+      { title: 'Nivel 0: Inicial', description: 'Muy pocos componentes BIM generados por proveedores (productos y materiales virtuales que representan a los físicos). La mayoría de los componentes los preparan los desarrolladores de software y los usuarios finales.', color: 'text-red-400', bg: 'bg-red-950/20', border: 'border-red-500/20' },
+      { title: 'Nivel 1: Definido', description: 'Los componentes BIM generados por proveedores cada vez son más asequibles a medida que los fabricantes / proveedores identifican los beneficios del negocio.', color: 'text-orange-400', bg: 'bg-orange-950/20', border: 'border-orange-500/20' },
+      { title: 'Nivel 2: Gestionado', description: 'Los componentes BIM están disponibles a través de repositorios centrales de muy fácil acceso / búsqueda. Los componentes no están conectados de forma interactiva a las bases de datos de los proveedores.', color: 'text-amber-400', bg: 'bg-amber-950/20', border: 'border-amber-500/20' },
+      { title: 'Nivel 3: Integrado', description: 'El acceso a los repositorios de componentes está integrado en el software BIM. Los componentes están vinculados a bases de datos fuente de forma interactiva (por precio, disponibilidad, etc...).', color: 'text-blue-400', bg: 'bg-blue-950/20', border: 'border-blue-500/20' },
+      { title: 'Nivel 4: Optimizado', description: 'La generación e intercambio de componentes BIM dinámica, por múltiples vías (productos y materiales virtuales) entre todos los interesados en el proyecto a través de repositorios centrales o en red.', color: 'text-emerald-400', bg: 'bg-emerald-950/20', border: 'border-emerald-500/20' }
+    ]
+  }
+];
+
+export const BimMaturityMatrixSlide = () => {
+  // Store selected level index (0-4) for each of the 33 subcategories
+  const [selections, setSelections] = useState<Record<string, number>>({
+    // Tecnología (9)
+    sw_seleccion: 1,
+    sw_modelos: 1,
+    sw_gestion: 0,
+    sw_intercambios: 0,
+    hw_equipamiento: 1,
+    hw_actualizacion: 1,
+    red_infraestructura: 0,
+    red_canales: 0,
+    red_conectividad: 0,
+    // Procesos (9)
+    rec_entorno: 1,
+    rec_conocimiento: 0,
+    act_roles: 1,
+    act_colaboracion: 1,
+    act_productividad: 0,
+    mod_lod: 1,
+    lid_vision: 0,
+    lid_estrategia: 0,
+    lid_innovacion: 0,
+    // Políticas (7)
+    ent_requisitos: 0,
+    ent_programas: 0,
+    est_politicas: 1,
+    est_gestion: 0,
+    est_calidad: 0,
+    con_responsabilidades: 0,
+    ind_desempeño: 0,
+    // Capacidad BIM (5)
+    cap_modelado: 1,
+    cap_col_metodo: 0,
+    cap_col_confianza: 0,
+    cap_red_modelos: 0,
+    cap_red_coordinacion: 0,
+    // Escala (3)
+    esc_organizaciones: 1,
+    esc_equipos: 0,
+    esc_mercados: 0
+  });
+
+  const [activeCategory, setActiveCategory] = useState<'tecnologia' | 'procesos' | 'politicas' | 'capacidad' | 'escala'>('tecnologia');
+
+  const handleCellClick = (dimensionId: string, levelIndex: number) => {
+    setSelections(prev => ({
+      ...prev,
+      [dimensionId]: levelIndex
+    }));
+  };
+
+  // Compute stats
+  const totalLevels = (Object.values(selections) as number[]).reduce((acc: number, curr: number) => acc + (curr || 0), 0);
+  const maxPossible = DIMENSIONS.length * 4; // 33 subcategories * 4 points max each (index 4) = 132
+  const scorePercentage = Math.round((totalLevels / maxPossible) * 100);
+
+  // Overall category name
+  let maturityCategory = 'BIM Inicial / Incipiente';
+  let categoryColor = 'text-red-400 border-red-500/30 bg-red-950/10';
+  if (scorePercentage >= 80) {
+    maturityCategory = 'Nivel 3: Corporación Optimizada / Líder BIM';
+    categoryColor = 'text-emerald-400 border-emerald-500/30 bg-emerald-950/10';
+  } else if (scorePercentage >= 50) {
+    maturityCategory = 'Nivel 2: Corporación Integrada / Colaborativa';
+    categoryColor = 'text-amber-400 border-amber-500/30 bg-amber-950/10';
+  } else if (scorePercentage >= 20) {
+    maturityCategory = 'Nivel 1: Corporación Modelado en Silo';
+    categoryColor = 'text-orange-400 border-orange-500/30 bg-orange-950/10';
+  }
+
+  // Generate a custom technical auditor prescription report
+  const generateAuditorTips = () => {
+    const sw = ((selections.sw_seleccion || 0) + (selections.sw_modelos || 0) + (selections.sw_gestion || 0) + (selections.sw_intercambios || 0)) / 4;
+    const hw = ((selections.hw_equipamiento || 0) + (selections.hw_actualizacion || 0)) / 2;
+    const red = ((selections.red_infraestructura || 0) + (selections.red_canales || 0) + (selections.red_conectividad || 0)) / 3;
+    
+    const act = ((selections.act_roles || 0) + (selections.act_colaboracion || 0) + (selections.act_productividad || 0)) / 3;
+    const mod = selections.mod_lod || 0;
+    const lid = ((selections.lid_vision || 0) + (selections.lid_estrategia || 0) + (selections.lid_innovacion || 0)) / 3;
+
+    const con = selections.con_responsabilidades || 0;
+
+    const tips: string[] = [];
+
+    // Technology heavy but low process/people
+    if ((sw + hw + red) / 3 > (act + mod + lid) / 3 + 0.8) {
+      tips.push("⚠️ Desequilibrio Tecnológico: Tu infraestructura de Hardware/Software está por delante de tus flujos de trabajo prácticos. Detén adquisiciones avanzadas y prioriza capacitar a tus colaboradores en la estandarización del modelado.");
+    }
+
+    // Process heavy but low technology
+    if ((act + mod) / 2 > (sw + hw + red) / 3 + 0.8) {
+      tips.push("💡 Cuello de Botella de Red/Hardware: Tus intenciones y flujos están listos para la coordinación de alto nivel, pero los computadores lentos o redes inestables frustran el rendimiento técnico. Actualiza tu CDE.");
+    }
+
+    // High process but zero contracts
+    if (mod >= 2 && con < 2) {
+      tips.push("📋 Vulnerabilidad Contractual: Aunque modelas con precisión y gestionas el LOD, trabajas con contratos tradicionales sin cláusulas de propiedad intelectual o flujos de responsabilidad BIM. Introduce un Anexo EIR/BIM.");
+    }
+
+    // General prescriptions based on percentage
+    if (scorePercentage < 20) {
+      tips.push("🚀 Diagnóstico Inicial: Tu organización está en un nivel primario. Te recomendamos arrancar con un piloto a pequeña escala. Define un estándar mínimo de 3 páginas de modelado para unificar criterios.");
+    } else if (scorePercentage < 50) {
+      tips.push("📌 Diagnóstico Nivel 1: Tienes herramientas de modelado pero operan de forma aislada. La prioridad de la empresa debe ser estructurar un Entorno Común de Datos (CDE) y homogeneizar las plantillas de inicio.");
+    } else if (scorePercentage < 80) {
+      tips.push("📈 Diagnóstico Nivel 2: Excelente base colaborativa. Para escalar al siguiente nivel, necesitas integrar flujos de control de calidad automatizados y consolidar auditorías semanales.");
+    } else {
+      tips.push("🌟 Diagnóstico Nivel 3: Tu corporación está en la cima del rendimiento. Invierte en integraciones con ERP, simulación BIM 5D en tiempo real o gemelos digitales (Digital Twins).");
+    }
+
+    return tips;
+  };
+
+  const auditorPrescriptions = generateAuditorTips();
+
+  // Filter dimensions based on active category
+  const filteredDimensions = DIMENSIONS.filter(
+    dim => dim.category === activeCategory
+  );
+
+  return (
+    <div className="space-y-6 w-full max-w-6xl mx-auto text-slate-100 font-sans p-6" id="maturity-slide">
+      {/* Header */}
+      <div className="border-b border-white/5 pb-4">
+        <div>
+          <span className="text-[10px] font-mono text-emerald-400 font-extrabold uppercase tracking-[0.2em] block mb-1">
+            SESIÓN 10 — AUDITORÍA, ASEGURAMIENTO DE CALIDAD Y MÉTRICAS
+          </span>
+          <h2 className="text-xl md:text-2xl font-mono text-white font-black uppercase tracking-tight flex items-center gap-2">
+            <ClipboardList className="text-emerald-400 w-6 h-6 shrink-0" /> BLOQUE 2: Auditoría del Proceso BIM a Nivel Empresa (Matriz de Madurez)
+          </h2>
+        </div>
+      </div>
+
+      {/* Intro box */}
+      <div className="bg-slate-900/60 border border-white/5 rounded-2xl p-5 space-y-4">
+        <div className="space-y-1.5">
+          <h4 className="text-xs font-black uppercase text-emerald-400 tracking-wider">Capacidad Organizativa y Absorción Tecnológica</h4>
+          <p className="text-[11px] md:text-xs text-slate-300 leading-relaxed">
+            Auditar a la empresa significa evaluar si la organización cuenta con las capacidades estructurales para absorber la tecnología y los contratos internacionales (como la norma <span className="text-white font-bold">ISO 19650</span>). Para ello, el BIM Manager utiliza la <span className="text-white font-bold">Matriz de Madurez BIM</span> (adaptada del modelo del Profesor Bilal Succar), la cual mide el estado de la organización en tres campos: <span className="text-white font-bold">Tecnología, Procesos y Políticas</span>, integrando además la <span className="text-white font-bold">Capacidad BIM</span> y la <span className="text-white font-bold">Escala de Adopción</span>.
+          </p>
+        </div>
+      </div>
+
+      {/* A. Los Cinco Vectores de Madurez Corporativa */}
+      <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5 space-y-4">
+        <div className="border-b border-white/5 pb-2">
+          <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <Sparkles className="text-emerald-400 w-4 h-4" /> Los Vectores de Madurez Corporativa (Bilal Succar)
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="bg-black/30 border border-white/5 rounded-xl p-3 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-blue-400">
+              <Cpu className="w-3.5 h-3.5 shrink-0" />
+              <h4 className="text-[10px] font-bold uppercase text-white">Tecnología</h4>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-snug">
+              Hardware, Software de autoría, coordinación y redes para Entorno Común de Datos (CDE).
+            </p>
+          </div>
+
+          <div className="bg-black/30 border border-white/5 rounded-xl p-3 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-emerald-400">
+              <Layers className="w-3.5 h-3.5 shrink-0" />
+              <h4 className="text-[10px] font-bold uppercase text-white">Procesos</h4>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-snug">
+              Manuales de modelado, flujos de trabajo, gestión del entorno laboral y conocimiento.
+            </p>
+          </div>
+
+          <div className="bg-black/30 border border-white/5 rounded-xl p-3 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-purple-400">
+              <FileText className="w-3.5 h-3.5 shrink-0" />
+              <h4 className="text-[10px] font-bold uppercase text-white">Políticas</h4>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-snug">
+              Contratos BIM (EIR/BEP), entrenamiento técnico estructurado y auditorías de indicadores.
+            </p>
+          </div>
+
+          <div className="bg-black/30 border border-white/5 rounded-xl p-3 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-amber-400">
+              <Compass className="w-3.5 h-3.5 shrink-0" />
+              <h4 className="text-[10px] font-bold uppercase text-white">Capacidad BIM</h4>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-snug">
+              Transición de modelado aislado a colaboración federada e integración de datos en red.
+            </p>
+          </div>
+
+          <div className="bg-black/30 border border-white/5 rounded-xl p-3 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-pink-400">
+              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+              <h4 className="text-[10px] font-bold uppercase text-white">Escala</h4>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-snug">
+              Madurez organizativa, integración de equipos de proyectos y penetración del mercado.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* TAB BAR FOR CATEGORY FILTERING */}
+      <div className="flex flex-wrap gap-2 border-b border-white/5 pb-2">
+        <button
+          onClick={() => setActiveCategory('tecnologia')}
+          className={`px-4 py-2 text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all ${
+            activeCategory === 'tecnologia'
+              ? 'bg-blue-500/15 border border-blue-500/30 text-blue-400 font-black'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          💻 1. Tecnología ({DIMENSIONS.filter(d => d.category === 'tecnologia').length} filas)
+        </button>
+        <button
+          onClick={() => setActiveCategory('procesos')}
+          className={`px-4 py-2 text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all ${
+            activeCategory === 'procesos'
+              ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-black'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          ⚙️ 2. Procesos ({DIMENSIONS.filter(d => d.category === 'procesos').length} filas)
+        </button>
+        <button
+          onClick={() => setActiveCategory('politicas')}
+          className={`px-4 py-2 text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all ${
+            activeCategory === 'politicas'
+              ? 'bg-purple-500/15 border border-purple-500/30 text-purple-400 font-black'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          ⚖️ 3. Políticas ({DIMENSIONS.filter(d => d.category === 'politicas').length} filas)
+        </button>
+        <button
+          onClick={() => setActiveCategory('capacidad')}
+          className={`px-4 py-2 text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all ${
+            activeCategory === 'capacidad'
+              ? 'bg-amber-500/15 border border-amber-500/30 text-amber-400 font-black'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          🏢 4. Capacidad BIM ({DIMENSIONS.filter(d => d.category === 'capacidad').length} filas)
+        </button>
+        <button
+          onClick={() => setActiveCategory('escala')}
+          className={`px-4 py-2 text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all ${
+            activeCategory === 'escala'
+              ? 'bg-pink-500/15 border border-pink-500/30 text-pink-400 font-black'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          📈 5. Escala ({DIMENSIONS.filter(d => d.category === 'escala').length} filas)
+        </button>
+      </div>
+
+      {/* INTERACTIVE GRID MATRIX */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
+            Selección Interactiva de Capacidad
+          </h3>
+          <span className="text-[8px] md:text-[9px] font-mono text-slate-500 uppercase">Haz clic en cada celda para actualizar tu nivel de madurez</span>
+        </div>
+
+        <div className="border border-white/10 rounded-2xl overflow-hidden bg-[#050510]/95 shadow-2xl">
+          {/* Header Row */}
+          <div className="grid grid-cols-12 bg-white/[0.02] border-b border-white/10 p-3 text-[9px] font-mono font-black text-slate-400 uppercase tracking-widest text-center">
+            <div className="col-span-12 md:col-span-3 text-left pl-2">Dimensión Evaluada</div>
+            <div className="col-span-2.4 hidden md:block">Nivel 0: Inicial</div>
+            <div className="col-span-2.4 hidden md:block">Nivel 1: Definido</div>
+            <div className="col-span-2.4 hidden md:block">Nivel 2: Gestionado</div>
+            <div className="col-span-2.4 hidden md:block">Nivel 3: Integrado</div>
+            <div className="col-span-2.4 hidden md:block">Nivel 4: Optimizado</div>
+          </div>
+
+          {/* Table rows */}
+          <div className="divide-y divide-white/5">
+            {filteredDimensions.map((dim) => (
+              <div key={dim.id} className="grid grid-cols-12 p-4 items-center gap-3 md:gap-0">
+                {/* Left labels */}
+                <div className="col-span-12 md:col-span-3 space-y-1 md:pr-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{dim.icon}</span>
+                    <h4 className="text-xs font-black text-white">{dim.name}</h4>
+                  </div>
+                  <p className="text-[9px] text-slate-400 leading-normal">{dim.description}</p>
+                </div>
+
+                {/* Level blocks */}
+                <div className="col-span-12 md:col-span-9 grid grid-cols-1 md:grid-cols-5 gap-2">
+                  {dim.levels.map((lvl, index) => {
+                    const isSelected = selections[dim.id] === index;
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleCellClick(dim.id, index)}
+                        className={`p-3 rounded-xl border text-left transition-all relative flex flex-col justify-between min-h-[105px] group ${
+                          isSelected
+                            ? `${lvl.bg} ${lvl.border} border-l-4 border-l-emerald-500 text-white shadow-[0_4px_15px_rgba(16,185,129,0.1)]`
+                            : 'bg-transparent border-white/5 text-slate-400 hover:bg-white/[0.02] hover:border-white/10'
+                        }`}
+                      >
+                        {isSelected && (
+                          <span className="absolute top-2 right-2 bg-emerald-500 text-black rounded-full p-0.5 text-[8px] font-black">
+                            <Check className="w-2.5 h-2.5 stroke-[4px]" />
+                          </span>
+                        )}
+                        <span className={`text-[8px] font-mono uppercase font-black tracking-wider ${isSelected ? lvl.color : 'text-slate-500'}`}>
+                          {lvl.title}
+                        </span>
+                        <p className="text-[9px] leading-tight mt-1.5 text-slate-300 opacity-95 group-hover:opacity-100">
+                          {lvl.description}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* AUDIT SUMMARY & PRESCRIPTION */}
+      <div className="grid grid-cols-12 gap-6">
+        {/* Maturity score radial mockup */}
+        <div className="col-span-12 lg:col-span-4">
+          <div className="bg-[#050510] border border-white/10 rounded-2xl p-6 h-full flex flex-col justify-between text-center">
+            <div>
+              <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest block">ÍNDICE DE MADUREZ BIM</span>
+              <h4 className="text-xs font-black text-white uppercase tracking-wider mt-0.5">Resultado de Auditoría</h4>
+            </div>
+
+            {/* Circular progress display */}
+            <div className="relative py-6 flex items-center justify-center">
+              <div className="w-32 h-32 rounded-full border-4 border-white/5 flex flex-col items-center justify-center shadow-inner">
+                <span className="text-3xl font-mono font-black text-emerald-400">{scorePercentage}%</span>
+                <span className="text-[8px] font-mono text-slate-400 uppercase tracking-wider mt-1">Capacidad Lograda</span>
+              </div>
+            </div>
+
+            {/* Rating Category Box */}
+            <div className={`p-3 rounded-xl border text-center transition-colors ${categoryColor}`}>
+              <span className="text-[7px] font-mono uppercase tracking-widest block text-slate-400">Rango Clasificación</span>
+              <span className="text-xs font-bold block mt-0.5">{maturityCategory}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Auditor Prescriptions and Actionable Advice */}
+        <div className="col-span-12 lg:col-span-8">
+          <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-6 h-full space-y-4">
+            <div className="flex items-center gap-2">
+              <Award className="text-emerald-400 w-5 h-5" />
+              <div>
+                <h4 className="text-xs font-black text-white uppercase tracking-wider">Recetario del Auditor BIM</h4>
+                <p className="text-[9px] text-slate-500">Recomendaciones estratégicas generadas a medida basadas en tus selecciones de madurez.</p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {auditorPrescriptions.map((tip, idx) => (
+                <div key={idx} className="flex gap-3 bg-black/40 border border-white/5 p-3 rounded-xl items-start">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5"></div>
+                  <p className="text-[10px] text-slate-300 leading-relaxed font-sans">{tip}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-white/5 pt-4 flex justify-between items-center text-[9px] font-mono text-slate-400">
+              <span>Metodología de Auditoría: Succar Model completo</span>
+              <span className="text-emerald-400 font-bold font-mono">Aseguramiento de Calidad Certificado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
